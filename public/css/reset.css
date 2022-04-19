@@ -1,3 +1,5 @@
+/* @import "./iconfont.css"; */
+ 
 /* 清除内外边距 */
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,
 dl, dt, dd, ul, ol, li,
@@ -54,7 +56,19 @@ hr {
     border: none;
     height: 1px;
 }
-
+.clearFix::after{
+	content:"";
+	display: block;
+	clear:both;
+}
 /* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
 html { overflow-y: scroll; }
 
+/* 清除浮动 */
+.clearfix::after {
+    display: block;
+    height: 0;
+    content: "";
+    clear: both;
+    visibility: hidden;
+}
