@@ -11,13 +11,11 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 // ajax
-import {getBaseCategoryList} from "./api";
 export default {
   name: "App",
   mounted(){
-    getBaseCategoryList().then(data=>{
-      console.log(data);
-    })
+    //获取三级分类
+    this.$store.dispatch("getBaseCategoryList");
   },
   components: {
     Footer,

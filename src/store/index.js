@@ -1,10 +1,9 @@
 import Vue from "vue"
 import vuex from "vuex"
+//模块化
+import home from "./modules/home"
+import user from "./modules/user"
 Vue.use(vuex)
-
-const state = {
-
-}
 const mutations = {
 
 }
@@ -16,8 +15,12 @@ const getter = {
 }
 
 export default new vuex.Store({
-    state,
     mutations,
     actions,
-    getter
+    getter,
+    //vuex模块化,不同页面不同数据管理
+    modules:{
+        home,
+        user
+    }
 })
