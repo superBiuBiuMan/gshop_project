@@ -3,7 +3,13 @@
     <Header></Header>
     <router-view></router-view>
     <Footer v-show="!$route.meta.isHidenFooter"></Footer>
+
+
+
   </div>
+  
+
+
 </template>
 
 <script>

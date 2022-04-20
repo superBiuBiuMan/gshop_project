@@ -14,6 +14,7 @@ const mutations = {
 const actions = {
     //获取三级分类
     async getBaseCategoryList({ commit }){
+        //发送ajax请求
         const categoryList = await reqBaseCategoryList();
         if(categoryList.code==200){
             //请求成功

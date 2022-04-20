@@ -44,13 +44,18 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
 export default {
   name: "Nav",
   computed:{
-    //获取三级分类
-    baseCategoryList(){
-      return this.$store.state.home.baseCategoryList;
-    }
+    //获取三级分类 方法1
+    // baseCategoryList(){
+    //   return this.$store.state.home.baseCategoryList;
+    // }
+    //获取三级分类 方法2
+    ...mapState({
+      baseCategoryList:state=>state.home.baseCategoryList
+    })
   }
 };
 </script>
