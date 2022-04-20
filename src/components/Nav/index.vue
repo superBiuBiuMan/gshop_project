@@ -14,23 +14,44 @@
         <a href="###">秒杀</a>
       </nav>
       <div class="sort">
-        <div class="all-sort-list2">
-          <div class="item" v-for="(c1) in baseCategoryList" :key="c1.categoryId">
+         <!-- 利用事件委派跳转路由 -->
+        <div class="all-sort-list2"  @click="toSearch">
+          <div class="item" v-for="c1 in baseCategoryList" :key="c1.categoryId">
             <!-- 一级 -->
             <h3>
-              <a href="">{{c1.categoryName}}</a>
+              <!-- <a href="">{{c1.categoryName}}</a> -->
+              <!-- 声明式导航  过多的组件产生 -->
+              <!-- <router-link :to="`/search?categoryName=${c1.categoryName}&category1Id=${c1.categoryId}`">{{c1.categoryName}}</router-link> -->
+              <!-- 编程式导航 非委派-->
+              <!-- <a href="javascript:;" @click="$router.push(`/search?categoryName=${c1.categoryName}&category1Id=${c1.categoryId}`)">{{ c1.categoryName }}</a> -->
+              <a href="javascript:;" :data-categoryname="c1.categoryName" :data-category1Id="c1.categoryId">{{c1.categoryName}}</a>
             </h3>
             <div class="item-list clearfix">
+              
               <div class="subitem">
-                <dl class="fore" v-for="(c2) in c1.categoryChild" :key="c2.categoryId">
+                <dl
+                  class="fore"
+                  v-for="c2 in c1.categoryChild"
+                  :key="c2.categoryId"
+                >
                   <!-- 二级 -->
-                  <dt >
-                    <a href="">{{c2.categoryName}}</a>
+                  <dt>
+                    <!-- <a href="">{{c2.categoryName}}</a> -->
+                    <!-- 声明式导航  过多的组件产生 -->
+                    <!-- <router-link :to="`/search?categoryName=${c2.categoryName}&category2Id=${c2.categoryId}`">{{c2.categoryName}}</router-link> -->
+                    <!-- 编程式导航 非委派-->
+                    <!-- <a href="javascript:;" @click="$router.push(`/search?categoryName=${c2.categoryName}&category2Id=${c2.categoryId}`)">{{ c2.categoryName }}</a> -->
+                    <a href="javascript:;"  :data-categoryname="c2.categoryName" :data-category2Id="c2.categoryId">{{c2.categoryName}}</a>
                   </dt>
                   <dd>
                     <!-- 三级 -->
-                    <em v-for="(c3) in c2.categoryChild" :key="c3.categoryId">
-                      <a href="">{{c3.categoryName}}</a>
+                    <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                      <!-- <a href="">{{c3.categoryName}}</a> -->
+                      <!-- 声明式导航  过多的组件产生-->
+                      <!-- <router-link :to="`/search?categoryName=${c3.categoryName}&category3Id=${c3.categoryId}`">{{c3.categoryName}}</router-link> -->
+                      <!-- 编程式导航 非委派-->
+                      <!-- <a href="javascript:;" @click="$router.push(`/search?categoryName=${c3.categoryName}&category3Id=${c3.categoryId}`)">{{ c3.categoryName }}</a> -->
+                      <a href="javascript:;" :data-categoryname="c3.categoryName" :data-category3Id="c3.categoryId">{{c3.categoryName}}</a>
                     </em>
                   </dd>
                 </dl>
@@ -44,19 +65,45 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "Nav",
-  computed:{
+  computed: {
     //获取三级分类 方法1
     // baseCategoryList(){
     //   return this.$store.state.home.baseCategoryList;
     // }
     //获取三级分类 方法2
+    // 映射数据
     ...mapState({
-      baseCategoryList:state=>state.home.baseCategoryList
+      baseCategoryList: (state) => state.home.baseCategoryList,
+    }),
+  },
+  methods:{
+  //跳转搜索
+  toSearch(event){
+    //利用data自定义属性
+    let {categoryname,category1id,category2id,category3id}=event.target.dataset;//解构赋值
+    let query={};
+    //放入查询值
+    if(categoryname){
+      query.categoryName=categoryname;
+    }
+    //判断是哪一个分配查询的
+    if( category1id ){
+      query.category1Id = category1id;
+    }else if( category2id ){
+      query.category2Id = category2id;
+    }else if( category3id ){
+      query.category3Id = category3id;
+    }
+    console.log(query);
+    this.$router.push({
+      name:"search",
+      query
     })
   }
+}
 };
 </script>
 
