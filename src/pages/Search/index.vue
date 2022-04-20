@@ -1,7 +1,7 @@
 <template>
   <div>
     <Nav></Nav>
-    <h1>用户搜索的值:{{$route.query.searchKeyWord}}</h1>
+    <h1>用户搜索的值:{{$route.params.category}}</h1>
   </div>
 </template>
 

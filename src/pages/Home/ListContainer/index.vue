@@ -4,7 +4,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
+        <div class="swiper-container" ref="mySwiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
               <img src="./images/banner1.jpg" />
@@ -101,8 +101,32 @@
 </template>
 
 <script>
+import Swiper from "swiper";
+
 export default {
   name: "ListContainer",
+  //swiper需要在DOM加载完成后,也就是实例化后才可以使用
+  mounted(){
+        //不应该使用类选择器的,这样子后期生成会选择所有相同的类!!
+        var mySwiper = new Swiper (this.$refs.mySwiper, {
+        // direction: 'vertical', // 垂直切换选项
+        loop: true, // 循环模式选项
+        
+        // 如果需要分页器
+        pagination: {
+          el: '.swiper-pagination',
+        },
+        autoplay:{
+          //触碰后不会停止自动切换
+          disableOnInteraction: false,
+        },
+        // 如果需要前进后退按钮
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        }
+      });       
+  }
 };
 </script>
 

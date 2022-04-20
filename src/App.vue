@@ -16,6 +16,8 @@
 // 引入非路由组件
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+//引入swipercss
+import "swiper/css/swiper.css"
 // ajax
 export default {
   name: "App",

@@ -42,7 +42,7 @@ export default [
         }
     },
     {
-        path:'/search',
+        path:'/search/:category?',
         name:"search",
         component:Search
     }

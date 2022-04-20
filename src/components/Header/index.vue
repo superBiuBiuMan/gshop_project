@@ -67,9 +67,11 @@ export default {
       if (searchKeyWord.trim()) {
         this.$router.push({
           name: "search",
-          query: {
-            searchKeyWord
+          params:{
+            category:searchKeyWord
           },
+          //如果当前对象有query参数就传入
+          query:this.$route.query
         });
       } else {
         alert("请输入完整的内容!");

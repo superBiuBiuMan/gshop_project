@@ -45,7 +45,7 @@
               <img src="./images/floor-1-1.png" />
             </div>
             <div class="floorBanner">
-              <div class="swiper-container" id="floor2Swiper">
+              <div class="swiper-container" ref="Swiper">
                 <div class="swiper-wrapper">
                   <div class="swiper-slide">
                     <img src="./images/floor-1-b01.png" />
@@ -94,8 +94,30 @@
 </template>
 
 <script>
+import Swiper from "swiper"
 export default {
   name: "Floor",
+  mounted(){
+    //不应该使用类选择器的,这样子后期生成会选择所有相同的类!!
+        var mySwiper = new Swiper (this.$refs.Swiper, {
+        // direction: 'vertical', // 垂直切换选项
+        loop: true, // 循环模式选项
+        
+        // 如果需要分页器
+        pagination: {
+          el: '.swiper-pagination',
+        },
+        autoplay:{
+          //触碰后不会停止自动切换
+          disableOnInteraction: false,
+        },
+        // 如果需要前进后退按钮
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        }
+      });
+  }
 };
 </script>
 

@@ -136,6 +136,7 @@ export default {
       this.$router.push({
         name: "search",
         query,
+        params:this.$route.params
       });
     },
 
