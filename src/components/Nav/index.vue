@@ -2,9 +2,11 @@
   <!-- 商品分类导航 -->
   <div class="type-nav">
     <div class="container">
+       
       <!-- 嵌套一个外层div,这样子就可以实现全部商品分类和item中不会移出鼠标 -->
       <div @mouseleave="hideFirst" @mouseenter="showFirst">
         <h2 class="all">全部商品分类</h2>
+        <transition name="slide">
         <div class="sort" v-show="isShowFirst">
           <!-- 利用事件委派跳转路由 -->
           <div class="all-sort-list2" @click="toSearch">
@@ -72,6 +74,7 @@
             </div>
           </div>
         </div>
+         </transition>
       </div>
       <nav class="nav">
         <a href="###">服装城</a>
@@ -112,7 +115,7 @@ export default {
     }),
   },
   methods: {
-    //跳转搜索
+    /* 跳转搜索 */
     toSearch(event) {
       //利用data自定义属性
       let { categoryname, category1id, category2id, category3id } =
@@ -135,19 +138,22 @@ export default {
         query,
       });
     },
-    //显示当前指向的分类列表
+
+    /* 显示当前指向的分类列表  */
     // 使用节流,隔一段时间就调用,注意不能使用箭头函数
     showCurrentItem:throttle(function(index){
       if(this.currentIndex!=-2){
         this.currentIndex=index;
       }
-    },500),
-    //鼠标进入,显示一级分类
+    },200),
+    
+    /* 鼠标进入,显示一级分类 */
     showFirst(){
       this.currentIndex=-1;
       this.isShowFirst=true;
     },
-    //鼠标移出去,隐藏一级分类
+    
+    /* 鼠标移出去,隐藏一级分类 */
     hideFirst(){
       this.currentIndex=-2;
       this.isShowFirst=false;
@@ -188,6 +194,7 @@ export default {
     }
 
     .sort {
+      //这里已经是终点了相当于
       position: absolute;
       left: 0;
       top: 45px;
@@ -196,6 +203,16 @@ export default {
       position: absolute;
       background: #fafafa;
       z-index: 999;
+
+      &.slide-enter,
+      &.slide-leave-to{
+        opacity: 0;
+        height: 0;
+      }
+      &.slide-enter-active,
+      &.slide-leave-active{
+        transition: all .3s;
+      }
 
       .all-sort-list2 {
         .item {
