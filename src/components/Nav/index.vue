@@ -2,7 +2,77 @@
   <!-- 商品分类导航 -->
   <div class="type-nav">
     <div class="container">
-      <h2 class="all">全部商品分类</h2>
+      <!-- 嵌套一个外层div,这样子就可以实现全部商品分类和item中不会移出鼠标 -->
+      <div @mouseleave="hideFirst" @mouseenter="showFirst">
+        <h2 class="all">全部商品分类</h2>
+        <div class="sort" v-show="isShowFirst">
+          <!-- 利用事件委派跳转路由 -->
+          <div class="all-sort-list2" @click="toSearch">
+            <div
+              class="item"
+              v-for="(c1, index) in baseCategoryList"
+              :key="c1.categoryId"
+              :class="{ active: currentIndex == index }"
+              @mouseenter="showCurrentItem(index)"
+            >
+              <!-- 一级 -->
+              <h3>
+                <!-- <a href="">{{c1.categoryName}}</a> -->
+                <!-- 声明式导航  过多的组件产生 -->
+                <!-- <router-link :to="`/search?categoryName=${c1.categoryName}&category1Id=${c1.categoryId}`">{{c1.categoryName}}</router-link> -->
+                <!-- 编程式导航 非委派-->
+                <!-- <a href="javascript:;" @click="$router.push(`/search?categoryName=${c1.categoryName}&category1Id=${c1.categoryId}`)">{{ c1.categoryName }}</a> -->
+                <a
+                  href="javascript:;"
+                  :data-categoryname="c1.categoryName"
+                  :data-category1Id="c1.categoryId"
+                  >{{ c1.categoryName }}</a
+                >
+              </h3>
+              <div class="item-list clearfix">
+                <div class="subitem">
+                  <dl
+                    class="fore"
+                    v-for="c2 in c1.categoryChild"
+                    :key="c2.categoryId"
+                  >
+                    <!-- 二级 -->
+                    <dt>
+                      <!-- <a href="">{{c2.categoryName}}</a> -->
+                      <!-- 声明式导航  过多的组件产生 -->
+                      <!-- <router-link :to="`/search?categoryName=${c2.categoryName}&category2Id=${c2.categoryId}`">{{c2.categoryName}}</router-link> -->
+                      <!-- 编程式导航 非委派-->
+                      <!-- <a href="javascript:;" @click="$router.push(`/search?categoryName=${c2.categoryName}&category2Id=${c2.categoryId}`)">{{ c2.categoryName }}</a> -->
+                      <a
+                        href="javascript:;"
+                        :data-categoryname="c2.categoryName"
+                        :data-category2Id="c2.categoryId"
+                        >{{ c2.categoryName }}</a
+                      >
+                    </dt>
+                    <dd>
+                      <!-- 三级 -->
+                      <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                        <!-- <a href="">{{c3.categoryName}}</a> -->
+                        <!-- 声明式导航  过多的组件产生-->
+                        <!-- <router-link :to="`/search?categoryName=${c3.categoryName}&category3Id=${c3.categoryId}`">{{c3.categoryName}}</router-link> -->
+                        <!-- 编程式导航 非委派-->
+                        <!-- <a href="javascript:;" @click="$router.push(`/search?categoryName=${c3.categoryName}&category3Id=${c3.categoryId}`)">{{ c3.categoryName }}</a> -->
+                        <a
+                          href="javascript:;"
+                          :data-categoryname="c3.categoryName"
+                          :data-category3Id="c3.categoryId"
+                          >{{ c3.categoryName }}</a
+                        >
+                      </em>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -13,61 +83,23 @@
         <a href="###">有趣</a>
         <a href="###">秒杀</a>
       </nav>
-      <div class="sort">
-         <!-- 利用事件委派跳转路由 -->
-        <div class="all-sort-list2"  @click="toSearch">
-          <div class="item" v-for="c1 in baseCategoryList" :key="c1.categoryId">
-            <!-- 一级 -->
-            <h3>
-              <!-- <a href="">{{c1.categoryName}}</a> -->
-              <!-- 声明式导航  过多的组件产生 -->
-              <!-- <router-link :to="`/search?categoryName=${c1.categoryName}&category1Id=${c1.categoryId}`">{{c1.categoryName}}</router-link> -->
-              <!-- 编程式导航 非委派-->
-              <!-- <a href="javascript:;" @click="$router.push(`/search?categoryName=${c1.categoryName}&category1Id=${c1.categoryId}`)">{{ c1.categoryName }}</a> -->
-              <a href="javascript:;" :data-categoryname="c1.categoryName" :data-category1Id="c1.categoryId">{{c1.categoryName}}</a>
-            </h3>
-            <div class="item-list clearfix">
-              
-              <div class="subitem">
-                <dl
-                  class="fore"
-                  v-for="c2 in c1.categoryChild"
-                  :key="c2.categoryId"
-                >
-                  <!-- 二级 -->
-                  <dt>
-                    <!-- <a href="">{{c2.categoryName}}</a> -->
-                    <!-- 声明式导航  过多的组件产生 -->
-                    <!-- <router-link :to="`/search?categoryName=${c2.categoryName}&category2Id=${c2.categoryId}`">{{c2.categoryName}}</router-link> -->
-                    <!-- 编程式导航 非委派-->
-                    <!-- <a href="javascript:;" @click="$router.push(`/search?categoryName=${c2.categoryName}&category2Id=${c2.categoryId}`)">{{ c2.categoryName }}</a> -->
-                    <a href="javascript:;"  :data-categoryname="c2.categoryName" :data-category2Id="c2.categoryId">{{c2.categoryName}}</a>
-                  </dt>
-                  <dd>
-                    <!-- 三级 -->
-                    <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                      <!-- <a href="">{{c3.categoryName}}</a> -->
-                      <!-- 声明式导航  过多的组件产生-->
-                      <!-- <router-link :to="`/search?categoryName=${c3.categoryName}&category3Id=${c3.categoryId}`">{{c3.categoryName}}</router-link> -->
-                      <!-- 编程式导航 非委派-->
-                      <!-- <a href="javascript:;" @click="$router.push(`/search?categoryName=${c3.categoryName}&category3Id=${c3.categoryId}`)">{{ c3.categoryName }}</a> -->
-                      <a href="javascript:;" :data-categoryname="c3.categoryName" :data-category3Id="c3.categoryId">{{c3.categoryName}}</a>
-                    </em>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import throttle from "lodash/throttle";
 export default {
   name: "Nav",
+  data() {
+    return {
+      //当前显示的分类栏
+      currentIndex: -2,
+      //控制一级分类栏是否显示
+      isShowFirst:this.$route.path==="/"
+    };
+  },
   computed: {
     //获取三级分类 方法1
     // baseCategoryList(){
@@ -79,31 +111,48 @@ export default {
       baseCategoryList: (state) => state.home.baseCategoryList,
     }),
   },
-  methods:{
-  //跳转搜索
-  toSearch(event){
-    //利用data自定义属性
-    let {categoryname,category1id,category2id,category3id}=event.target.dataset;//解构赋值
-    let query={};
-    //放入查询值
-    if(categoryname){
-      query.categoryName=categoryname;
+  methods: {
+    //跳转搜索
+    toSearch(event) {
+      //利用data自定义属性
+      let { categoryname, category1id, category2id, category3id } =
+        event.target.dataset; //解构赋值
+      let query = {};
+      //放入查询值
+      if (categoryname) {
+        query.categoryName = categoryname;
+      }
+      //判断是哪一个分配查询的
+      if (category1id) {
+        query.category1Id = category1id;
+      } else if (category2id) {
+        query.category2Id = category2id;
+      } else if (category3id) {
+        query.category3Id = category3id;
+      }
+      this.$router.push({
+        name: "search",
+        query,
+      });
+    },
+    //显示当前指向的分类列表
+    // 使用节流,隔一段时间就调用,注意不能使用箭头函数
+    showCurrentItem:throttle(function(index){
+      if(this.currentIndex!=-2){
+        this.currentIndex=index;
+      }
+    },500),
+    //鼠标进入,显示一级分类
+    showFirst(){
+      this.currentIndex=-1;
+      this.isShowFirst=true;
+    },
+    //鼠标移出去,隐藏一级分类
+    hideFirst(){
+      this.currentIndex=-2;
+      this.isShowFirst=false;
     }
-    //判断是哪一个分配查询的
-    if( category1id ){
-      query.category1Id = category1id;
-    }else if( category2id ){
-      query.category2Id = category2id;
-    }else if( category3id ){
-      query.category3Id = category3id;
-    }
-    console.log(query);
-    this.$router.push({
-      name:"search",
-      query
-    })
-  }
-}
+  },
 };
 </script>
 
@@ -216,8 +265,9 @@ export default {
               }
             }
           }
-
-          &:hover {
+          //控制分类列表显示隐藏
+          &.active {
+            background-color: rgb(139, 134, 134);
             .item-list {
               display: block;
             }
