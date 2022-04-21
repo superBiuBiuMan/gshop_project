@@ -4,15 +4,28 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <swiper :options="swiperOptions">
-          <swiper-slide v-for="(el) in bannerList" :key="el.id" >
-            <img :src="el.imageUrl" />
-          </swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
-          <div class="swiper-button-next swiper-button" slot="button-next"></div>
-          <div class="swiper-button-prev swiper-button" slot="button-prev"></div>
-        </swiper>
+        <div class="swiper-container" ref="mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="(el) in bannerList" :key="el.id">
+              <img :src="el.imageUrl" />
+            </div>
+            <!-- <div class="swiper-slide">
+              <img src="./images/banner2.jpg" />
+            </div>
+            <div class="swiper-slide">
+              <img src="./images/banner3.jpg" />
+            </div>
+            <div class="swiper-slide">
+              <img src="./images/banner4.jpg" />
+            </div> -->
+          </div>
+          <!-- 如果需要分页器 -->
+          <div class="swiper-pagination"></div>
 
+          <!-- 如果需要导航按钮 -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
       </div>
       <div class="right">
         <div class="news">
@@ -88,15 +101,27 @@
 </template>
 
 <script>
+import Swiper from "swiper";
 import { mapState } from 'vuex';
 
 export default {
   name: "ListContainer",
-  data(){
-    return {
-      /* swiper配置 */
-      swiperOptions:{
-         // direction: 'vertical', // 垂直切换选项
+  //swiper需要在DOM加载完成后,也就是实例化后才可以使用
+  mounted() {
+    // /* 初始化Swiper */
+    // (function () {
+      
+    // }.bind(this))();
+  },
+  methods: {},
+  watch:{
+    /* 监视bannerList数据更新 */
+    bannerList(){
+      /* 等待页面更新完成后执行回调 */
+      this.$nextTick(()=>{
+          //不应该使用类选择器的,这样子后期生成会选择所有相同的类!!
+         var mySwiper = new Swiper(this.$refs.mySwiper, {
+          // direction: 'vertical', // 垂直切换选项
           loop: true, // 循环模式选项
 
           // 如果需要分页器
@@ -111,8 +136,9 @@ export default {
           navigation: {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
-          }
-      }
+          },
+        });
+      });
     }
   },
   computed:{
