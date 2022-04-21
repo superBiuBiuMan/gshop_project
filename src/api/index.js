@@ -2,6 +2,8 @@
 import axios from "./axios.js";
 
 export function reqBaseCategoryList(){
-    return axios.get("/product/getBaseCategoryList")
+    return axios.get("/product/getBaseCategoryList");
 }
-
+export function reqBannerList(){
+    return axios.get("/cms/banner");
+}

@@ -6,10 +6,10 @@
         <!--banner轮播-->
         <div class="swiper-container" ref="mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
+            <div class="swiper-slide" v-for="(el) in bannerList" :key="el.id">
+              <img :src="el.imageUrl" />
             </div>
-            <div class="swiper-slide">
+            <!-- <div class="swiper-slide">
               <img src="./images/banner2.jpg" />
             </div>
             <div class="swiper-slide">
@@ -17,7 +17,7 @@
             </div>
             <div class="swiper-slide">
               <img src="./images/banner4.jpg" />
-            </div>
+            </div> -->
           </div>
           <!-- 如果需要分页器 -->
           <div class="swiper-pagination"></div>
@@ -102,30 +102,47 @@
 
 <script>
 import Swiper from "swiper";
+import { mapState } from 'vuex';
 
 export default {
   name: "ListContainer",
   //swiper需要在DOM加载完成后,也就是实例化后才可以使用
-  mounted(){
-        //不应该使用类选择器的,这样子后期生成会选择所有相同的类!!
-        var mySwiper = new Swiper (this.$refs.mySwiper, {
-        // direction: 'vertical', // 垂直切换选项
-        loop: true, // 循环模式选项
-        
-        // 如果需要分页器
-        pagination: {
-          el: '.swiper-pagination',
-        },
-        autoplay:{
-          //触碰后不会停止自动切换
-          disableOnInteraction: false,
-        },
-        // 如果需要前进后退按钮
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        }
-      });       
+  mounted() {
+    // /* 初始化Swiper */
+    // (function () {
+      
+    // }.bind(this))();
+  },
+  methods: {},
+  watch:{
+    /* 监视bannerList数据更新 */
+    bannerList(){
+      /* 等待页面更新完成后执行回调 */
+      this.$nextTick(()=>{
+          //不应该使用类选择器的,这样子后期生成会选择所有相同的类!!
+         var mySwiper = new Swiper(this.$refs.mySwiper, {
+          // direction: 'vertical', // 垂直切换选项
+          loop: true, // 循环模式选项
+
+          // 如果需要分页器
+          pagination: {
+            el: ".swiper-pagination",
+          },
+          autoplay: {
+            //触碰后不会停止自动切换
+            disableOnInteraction: false,
+          },
+          // 如果需要前进后退按钮
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
+        });
+      });
+    }
+  },
+  computed:{
+    ...mapState({bannerList:state=>state.home.bannerList})
   }
 };
 </script>

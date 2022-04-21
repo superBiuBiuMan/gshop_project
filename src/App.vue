@@ -24,6 +24,8 @@ export default {
   mounted(){
     //获取三级分类
     this.$store.dispatch("getBaseCategoryList");
+    //获取路由
+    this.$store.dispatch("getBannerList");
   },
   components: {
     Footer,

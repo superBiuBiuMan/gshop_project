@@ -3,7 +3,6 @@ import VueRouter from "vue-router"
 //引入路由文件
 import routes from "./routes.js"
 Vue.use(VueRouter);
-import Router from 'vue-router'
 
 const originalPush = VueRouter.prototype.push
 //解决重复提交相同链接报错

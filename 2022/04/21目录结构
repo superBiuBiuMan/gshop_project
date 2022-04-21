@@ -1,0 +1,51 @@
+|-public
+	|-css
+	|-js
+	|-index.html
+
+|-node_module
+
+|-src
+	|-main.js
+	|-App.vue
+	|-store
+		|-index.js
+		|-modules
+			|-home.js
+			|-user.js
+	|-api
+		|-axios.js
+		|-index.js
+	|-router
+		|-index.js
+		|-routes.js
+	|-components
+		|-Header
+			|-index.uve
+		|-Nav
+			|-index.vue
+		|-Footer
+			|-index.vue
+	|-pages
+		|-Home
+			|-index.vue
+			|-ListContainer
+				|-index.vue
+			|-Like
+				|-index.vue
+			|-Rank
+				|-index.vue
+			|-TodayRecommend
+				|-index.vue
+			|-Floor
+				|-index.vue
+			|-Brand
+				|-index.vue
+		|-Search
+			|-index.vue
+		|-Register
+			|-index.vue
+		|-Login
+			|-index.vue
+	
+	
