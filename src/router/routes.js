@@ -44,6 +44,6 @@ export default [
     {
         path:'/search/:category?',
         name:"search",
-        component:Search
+        component:Search,
     }
 ]

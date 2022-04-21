@@ -3,6 +3,7 @@ import vuex from "vuex"
 //模块化
 import home from "./modules/home"
 import user from "./modules/user"
+import search from "./modules/search"
 Vue.use(vuex)
 const mutations = {
 
@@ -21,6 +22,7 @@ export default new vuex.Store({
     //vuex模块化,不同页面不同数据管理
     modules:{
         home,
-        user
+        user,
+        search
     }
 })
