@@ -7,6 +7,8 @@ import router from "@/router"
 import Nav from "@/components/Nav"
 //引入swiper插件
 import "@/plugins/swiper.js";
+//引入假数据
+import "@/mock/mockServe.js";
 //关闭开发提示
 Vue.config.productionTip = false
 //注册全局组件-导航栏

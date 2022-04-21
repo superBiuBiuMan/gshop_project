@@ -5,7 +5,6 @@
     <Footer v-show="!$route.meta.isHidenFooter"></Footer>
 
 
-
   </div>
   
 
@@ -26,6 +25,10 @@ export default {
     this.$store.dispatch("getBaseCategoryList");
     //获取路由
     this.$store.dispatch("getBannerList");
+    //获取今日推荐
+    this.$store.dispatch("getRecommend");
+    //获取Floor
+    this.$store.dispatch("getFloor");
   },
   components: {
     Footer,

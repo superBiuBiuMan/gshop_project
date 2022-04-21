@@ -1,0 +1,39 @@
+[
+    {
+        "id":"001",
+        "imageUrl|1":[
+            "/images/today01.png",
+            "/images/today02.png",
+            "/images/today03.png",
+            "/images/today04.png"
+        ]
+    },
+    {
+        "id":"002",
+        "imageUrl|1":[
+            "/images/today01.png",
+            "/images/today02.png",
+            "/images/today03.png",
+            "/images/today04.png"
+        ]
+    },
+    {
+        "id":"003",
+        "imageUrl|1":[
+            "/images/today01.png",
+            "/images/today02.png",
+            "/images/today03.png",
+            "/images/today04.png"
+        ]
+    },
+    {
+        "id":"004",
+        "imageUrl|1":[
+            "/images/today01.png",
+            "/images/today02.png",
+            "/images/today03.png",
+            "/images/today04.png"
+        ]
+    }
+
+]
