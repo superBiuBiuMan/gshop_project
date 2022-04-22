@@ -132,11 +132,18 @@ export default {
       } else if (category3id) {
         query.category3Id = category3id;
       }
-      this.$router.push({
+      let opts={
         name: "search",
         query,
         params:this.$route.params
-      });
+      };
+      //跳转
+      if(this.$route.name=="search"){
+          this.$router.replace(opts);
+        }
+      this.$router.push(opts);
+      //隐藏
+      this.hideFirst();
     },
 
     /* 显示当前指向的分类列表  */

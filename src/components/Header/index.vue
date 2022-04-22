@@ -60,19 +60,34 @@ export default {
       searchKeyWord: "",
     };
   },
+  mounted(){
+    this.$bus.$on("clearSearch",this.clearSearch);
+  },
   methods: {
+    /* 清空搜索框 */
+    clearSearch(){
+      this.searchKeyWord="";
+    },
     /* 提交搜索 */
     toSearch() {
       let { searchKeyWord } = this;
       if (searchKeyWord.trim()) {
-        this.$router.push({
-          name: "search",
+        //如果当前头部所在组件为search
+        let opts={
+           name: "search",
           params:{
             keyword:searchKeyWord
           },
           //如果当前对象有query参数就传入
           query:this.$route.query
-        });
+        };
+        if(this.$route.name=="search"){
+          console.log("被替换");
+          this.$router.replace(opts);
+        }
+        this.$router.push(opts);
+        //清空输入内容
+        this.searchKeyWord="";
       } else {
         alert("请输入完整的内容!");
       }

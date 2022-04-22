@@ -15,10 +15,23 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="this.options.categoryName">
+              {{this.options.categoryName}}
+              <i @click="removeCategory">×</i>
+            </li>
+             <li class="with-x" v-if="this.options.keyword">
+              {{this.options.keyword}}
+              <i @click="removeKeyword">×</i>
+            </li>
+             <!-- <li class="with-x" v-if="this.options.category1Id">
+              {{this.options.category1Id}}
+              <i>×</i>
+              <li class="with-x" v-if="this.options.category2Id">
+              {{this.options.category2Id}}
+              <i>×</i>
+              <li class="with-x" v-if="this.options.category3Id">
+              {{this.options.category3Id}}
+              <i>×</i> -->
           </ul>
         </div>
         <!--selector-->
@@ -244,6 +257,33 @@ export default {
     this.getShopList();
   },
   methods:{
+    /* 移除分类 */
+    removeCategory(){
+      this.options.category1Id="";
+      this.options.category2Id="";
+      this.options.category3Id="";
+      this.options.categoryName="";
+      //重发请求
+      // this.getShopList();
+      // 通过push  或者 router来更改,这样子地址栏就可以跟着删除了
+      this.$router.replace({
+        name:"search",
+        params:this.$route.params
+      });
+    },
+    /* 移除查询关键字 */
+    removeKeyword(){
+      this.options.keyword="";
+      //重发请求
+      // this.getShopList();
+      //当删除了搜索关键字的时候,搜索框内容也应该被清除
+      this.$router.replace({
+        name:"search",
+        query:this.$route.query
+      });
+      //移除搜索框内容
+      this.$bus.$emit("clearSearch");
+    },
     /* 更新查询参数 */
     updateParams(){
         //获取数据
