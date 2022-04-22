@@ -42,7 +42,8 @@ export default [
         }
     },
     {
-        path:'/search/:category?',
+        // path:'/search/:category?',
+        path:'/search/:keyword?',
         name:"search",
         component:Search,
     }

@@ -68,7 +68,7 @@ export default {
         this.$router.push({
           name: "search",
           params:{
-            category:searchKeyWord
+            keyword:searchKeyWord
           },
           //如果当前对象有query参数就传入
           query:this.$route.query

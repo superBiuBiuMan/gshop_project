@@ -23,7 +23,6 @@
         </div>
         <!--selector-->
         <SearchSelector></SearchSelector>
-
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
@@ -209,17 +208,62 @@
 
 <script>
 import { mapGetters } from "vuex";
-import SearchSelector from "./SearchSelector"
+import SearchSelector from "./SearchSelector";
 export default {
   name: "Search",
-  components:{
-    SearchSelector
+  components: {
+    SearchSelector,
   },
-  mounted() {
-    this.$store.dispatch("reqSearch", {
-      pageNo: 1,
-      pageSize: 10,
-    });
+  data() {
+    return {
+      //要发送的请求
+      options: {
+        category1Id: "", //一级分类
+        category2Id: "", //二级分类
+        category3Id: "", //三级分类
+        categoryName: "", //分类名称
+        keyword: "", //搜索关键字
+        props: [], //商品属性的数组: ["属性ID:属性值:属性名"]示例: ["2:6.0～6.24英寸:屏幕尺寸"]
+        trademark: "", //品牌: "ID:品牌名称"示例: "1:苹果
+        order: "", //排序 排序方式 1: 综合,2: 价格 asc: 升序,desc: 降序  示例: "1:desc"
+        pageNo: 1, //页码
+        pageSize: 10, //每页数量
+      },
+    };
+  },
+  watch:{
+    //监视路由参数的变化
+    $route(toParams,fromParams){
+      //发生变化,重写并查询
+       this.updateParams();
+       this.getShopList();
+    }
+  },
+  created() {
+    this.updateParams();
+    this.getShopList();
+  },
+  methods:{
+    /* 更新查询参数 */
+    updateParams(){
+        //获取数据
+        let { keyword } = this.$route.params; //获取搜索关键字
+        let { category1Id, category2Id, category3Id, categoryName } = this.$route.query; //获取搜索参数
+        //覆盖
+        this.options = {
+          ...this.options,
+          keyword,
+          category1Id,
+          category2Id,
+          category3Id,
+          categoryName,
+        };
+    },
+    /* 发送更新后的查询ajax请求 */
+    getShopList(){
+       //发送ajax请求
+        this.$store.dispatch("reqSearch", this.options);
+    }
   },
   computed: {
     // 为了避免undefined.xxx 出现报错,这里做处理 ,所以mapGetters可以对state数据做处理后返回
@@ -298,7 +342,7 @@ export default {
         }
       }
     }
-   
+
     .details {
       margin-bottom: 5px;
       .sui-navbar {

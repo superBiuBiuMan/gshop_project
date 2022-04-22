@@ -118,8 +118,7 @@ export default {
     /* 跳转搜索 */
     toSearch(event) {
       //利用data自定义属性
-      let { categoryname, category1id, category2id, category3id } =
-        event.target.dataset; //解构赋值
+      let { categoryname, category1id, category2id, category3id } = event.target.dataset; //解构赋值
       let query = {};
       //放入查询值
       if (categoryname) {
@@ -156,8 +155,10 @@ export default {
     
     /* 鼠标移出去,隐藏一级分类 */
     hideFirst(){
-      this.currentIndex=-2;
-      this.isShowFirst=false;
+      if(this.$route.path!=="/"){
+        this.isShowFirst=false;
+      }
+        this.currentIndex=-2; 
     }
   },
 };
