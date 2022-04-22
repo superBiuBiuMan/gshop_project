@@ -23,6 +23,10 @@
               {{this.options.keyword}}
               <i @click="removeKeyword">×</i>
             </li>
+             <li class="with-x" v-if="this.options.trademark">
+              {{this.options.trademark}}
+              <i @click="removeTrademark">×</i>
+            </li>
              <!-- <li class="with-x" v-if="this.options.category1Id">
               {{this.options.category1Id}}
               <i>×</i>
@@ -35,7 +39,7 @@
           </ul>
         </div>
         <!--selector-->
-        <SearchSelector></SearchSelector>
+        <SearchSelector :setTrademark="setTrademark"></SearchSelector>
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
@@ -246,17 +250,36 @@ export default {
   },
   watch:{
     //监视路由参数的变化
-    $route(toParams,fromParams){
-      //发生变化,重写并查询
-       this.updateParams();
-       this.getShopList();
+    // $route(toParams,fromParams){
+    //   //发生变化,重写并查询
+    //    this.updateParams();
+    //    this.getShopList();
+    // }
+    $route:{
+      handler(toParams,fromParams){
+         //发生变化,重写并查询
+         this.updateParams();
+         this.getShopList();
+      },
+      immediate:true,
     }
   },
-  created() {
-    this.updateParams();
-    this.getShopList();
-  },
+  // created() {
+  //   this.updateParams();
+  //   this.getShopList();
+  // },
   methods:{
+    /* 移除品牌 */
+    removeTrademark(){
+      this.options.trademark="";
+      this.getShopList();
+    },
+    /* 更改品牌 trademark */
+    setTrademark(trademark){
+      this.options.trademark=trademark;
+      //重写发送ajax请求
+      this.getShopList();
+    },
     /* 移除分类 */
     removeCategory(){
       this.options.category1Id="";

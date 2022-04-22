@@ -4,7 +4,7 @@
       <div class="fl key brand">品牌</div>
       <div class="value logos">
         <ul class="logo-list">
-          <li v-for="brand in trademarkList" :key="brand.tmId">
+          <li v-for="brand in trademarkList" :key="brand.tmId" @click="setTrademark(`${brand.tmId}:${brand.tmName}`)">
               {{brand.tmName}}
            </li>
         </ul>
@@ -36,7 +36,10 @@ export default {
   computed:{
       //获取属性值
       ...mapGetters(["trademarkList","attrsList"])
-  }
+  },
+  props:{
+    setTrademark:Function
+  },
 };
 </script>
 

@@ -82,7 +82,6 @@ export default {
           query:this.$route.query
         };
         if(this.$route.name=="search"){
-          console.log("被替换");
           this.$router.replace(opts);
         }
         this.$router.push(opts);

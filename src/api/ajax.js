@@ -3,6 +3,7 @@ import axios from "axios"
 import NProgress from "nprogress";
 // 脚手架帮我们配置好了才可以引入css的
 // import "nprogress/nprogress.css";
+import "nprogress/nprogress.css"
 //创建一个axios实例
 const service = axios.create({
     baseURL: "http://39.98.123.211/api",
