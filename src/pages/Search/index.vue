@@ -16,18 +16,24 @@
           </ul>
           <ul class="fl sui-tag">
             <li class="with-x" v-if="this.options.categoryName">
-              {{this.options.categoryName}}
+              {{ this.options.categoryName }}
               <i @click="removeCategory">×</i>
             </li>
-             <li class="with-x" v-if="this.options.keyword">
-              {{this.options.keyword}}
+            <li class="with-x" v-if="this.options.keyword">
+              {{ this.options.keyword }}
               <i @click="removeKeyword">×</i>
             </li>
-             <li class="with-x" v-if="this.options.trademark">
-              {{this.options.trademark}}
+            <li class="with-x" v-if="this.options.trademark">
+              {{ this.options.trademark }}
               <i @click="removeTrademark">×</i>
             </li>
-             <!-- <li class="with-x" v-if="this.options.category1Id">
+            <!-- 遍历详细属性 -->
+            <li class="with-x" v-for="(el, index) in options.props" :key="el">
+              {{ el }}
+              <i @click="removeProps(index)">×</i>
+            </li>
+
+            <!-- <li class="with-x" v-if="this.options.category1Id">
               {{this.options.category1Id}}
               <i>×</i>
               <li class="with-x" v-if="this.options.category2Id">
@@ -39,29 +45,64 @@
           </ul>
         </div>
         <!--selector-->
-        <SearchSelector :setTrademark="setTrademark"></SearchSelector>
+        <SearchSelector
+          :setTrademark="setTrademark"
+          :setOptionProps="setOptionProps"
+        ></SearchSelector>
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{ active: orderInfo[0] === '1' }">
+                  <a href="javascript:;" @click="orderProduct('1')">
+                    综合
+                    <i
+                      v-show="orderInfo[0] === '1'"
+                      class="iconfont"
+                      :class="orderInfo[1] === 'desc' ? 'icon-down' : 'icon-up'"
+                    ></i>
+                  </a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
+                <li :class="{ active: orderInfo[0] === '3' }">
+                  <a href="javascript:;">
+                    销量
+                    <i
+                      v-show="orderInfo[0] === '3'"
+                      class="iconfont"
+                      :class="orderInfo[1] === 'desc' ? 'icon-down' : 'icon-up'"
+                    ></i>
+                  </a>
                 </li>
-                <li>
-                  <a href="#">新品</a>
+                <li :class="{ active: orderInfo[0] === '4' }">
+                  <a href="javascript:;">
+                    新品
+                    <i
+                      v-show="orderInfo[0] === '4'"
+                      class="iconfont"
+                      :class="orderInfo[1] === 'desc' ? 'icon-down' : 'icon-up'"
+                    ></i>
+                  </a>
                 </li>
-                <li>
-                  <a href="#">评价</a>
+                    <li :class="{ active: orderInfo[0] === '5' }">
+                  <a href="javascript:;">
+                    评价
+                    <i
+                      v-show="orderInfo[0] === '5'"
+                      class="iconfont"
+                      :class="orderInfo[1] === 'desc' ? 'icon-down' : 'icon-up'"
+                    ></i>
+                  </a>
                 </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: orderInfo[0] === '2' }">
+                  <a href="javascript:;"  @click="orderProduct('2')">
+                    价格
+                    <i
+                      v-show="orderInfo[0] === '2'"
+                      class="iconfont"
+                      :class="orderInfo[1] === 'desc' ? 'icon-down' : 'icon-up'"
+                    ></i>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -242,91 +283,125 @@ export default {
         keyword: "", //搜索关键字
         props: [], //商品属性的数组: ["属性ID:属性值:属性名"]示例: ["2:6.0～6.24英寸:屏幕尺寸"]
         trademark: "", //品牌: "ID:品牌名称"示例: "1:苹果
-        order: "", //排序 排序方式 1: 综合,2: 价格 asc: 升序,desc: 降序  示例: "1:desc"
+        order: "1:desc", //排序 排序方式 1: 综合,2: 价格 asc: 升序,desc: 降序  示例: "1:desc"
         pageNo: 1, //页码
         pageSize: 10, //每页数量
       },
     };
   },
-  watch:{
+  watch: {
     //监视路由参数的变化
     // $route(toParams,fromParams){
     //   //发生变化,重写并查询
     //    this.updateParams();
     //    this.getShopList();
     // }
-    $route:{
-      handler(toParams,fromParams){
-         //发生变化,重写并查询
-         this.updateParams();
-         this.getShopList();
+    $route: {
+      handler(toParams, fromParams) {
+        //发生变化,重写并查询
+        this.updateParams();
+        this.getShopList();
       },
-      immediate:true,
-    }
+      immediate: true,
+    },
   },
   // created() {
   //   this.updateParams();
   //   this.getShopList();
   // },
-  methods:{
+  methods: {
+    /* 排序 flage为1或者2*/
+    orderProduct(flagAfter){
+      //降序升序切换
+      let [flagBefore,type]=this.orderInfo;
+      if(flagBefore===flagAfter){
+        //切换排序方式
+        type=type==='desc'?'asc':'desc';
+      }else{
+        //一个新的类型
+        type='desc';
+      }
+      this.options.order=flagAfter+":"+type;
+      //发送请求来更新
+      this.getShopList();
+    },
+    /* 移除详细属性 */
+    removeProps(index) {
+      this.options.props.splice(index, 1);
+      this.getShopList();
+    },
+    /* 设置品牌属性 */
+    setOptionProps(value) {
+      //如果已经有的值则不添加进
+      if (!this.options.props.includes(value)) {
+        this.options.props.push(value);
+        //发送请求来更新
+        this.getShopList();
+        // console.log(this.options.props);
+      }
+    },
     /* 移除品牌 */
-    removeTrademark(){
-      this.options.trademark="";
+    removeTrademark() {
+      this.options.trademark = "";
       this.getShopList();
     },
     /* 更改品牌 trademark */
-    setTrademark(trademark){
-      this.options.trademark=trademark;
-      //重写发送ajax请求
-      this.getShopList();
+    setTrademark(trademark) {
+      //如果是相同的,就不重新发送ajax请求
+      if (this.options.trademark != trademark) {
+        this.options.trademark = trademark;
+        //重写发送ajax请求
+        this.getShopList();
+      }
     },
     /* 移除分类 */
-    removeCategory(){
-      this.options.category1Id="";
-      this.options.category2Id="";
-      this.options.category3Id="";
-      this.options.categoryName="";
+    removeCategory() {
+      this.options.category1Id = "";
+      this.options.category2Id = "";
+      this.options.category3Id = "";
+      this.options.categoryName = "";
       //重发请求
       // this.getShopList();
       // 通过push  或者 router来更改,这样子地址栏就可以跟着删除了
       this.$router.replace({
-        name:"search",
-        params:this.$route.params
+        name: "search",
+        params: this.$route.params,
       });
     },
     /* 移除查询关键字 */
-    removeKeyword(){
-      this.options.keyword="";
+    removeKeyword() {
+      this.options.keyword = "";
       //重发请求
       // this.getShopList();
       //当删除了搜索关键字的时候,搜索框内容也应该被清除
       this.$router.replace({
-        name:"search",
-        query:this.$route.query
+        name: "search",
+        query: this.$route.query,
       });
       //移除搜索框内容
       this.$bus.$emit("clearSearch");
     },
     /* 更新查询参数 */
-    updateParams(){
-        //获取数据
-        let { keyword } = this.$route.params; //获取搜索关键字
-        let { category1Id, category2Id, category3Id, categoryName } = this.$route.query; //获取搜索参数
-        //覆盖
-        this.options = {
-          ...this.options,
-          keyword,
-          category1Id,
-          category2Id,
-          category3Id,
-          categoryName,
-        };
+    updateParams() {
+      //获取数据
+      let { keyword } = this.$route.params; //获取搜索关键字
+      let { category1Id, category2Id, category3Id, categoryName } =
+        this.$route.query; //获取搜索参数
+      //覆盖
+      this.options = {
+        ...this.options,
+        keyword,
+        category1Id,
+        category2Id,
+        category3Id,
+        categoryName,
+      };
     },
     /* 发送更新后的查询ajax请求 */
-    getShopList(){
-       //发送ajax请求
-        this.$store.dispatch("reqSearch", this.options);
-    }
+    getShopList() {
+      //发送ajax请求
+      this.$store.dispatch("reqSearch", this.options);
+    },
   },
   computed: {
     // 为了避免undefined.xxx 出现报错,这里做处理 ,所以mapGetters可以对state数据做处理后返回
@@ -338,6 +413,10 @@ export default {
     // goodsList(){
     //   return this.$store.goodsList
     // }
+    /* 返回分割排序方式后的数组 [0]代表序号 [1]代表排序方式 */
+    orderInfo() {
+      return this.options.order.split(":");
+    },
   },
 };
 </script>

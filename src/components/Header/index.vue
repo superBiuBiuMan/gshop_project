@@ -63,6 +63,10 @@ export default {
   mounted(){
     this.$bus.$on("clearSearch",this.clearSearch);
   },
+  destroyed(){
+    //解绑
+    this.$bus.$off("clearSearch");
+  },
   methods: {
     /* 清空搜索框 */
     clearSearch(){

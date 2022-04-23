@@ -17,8 +17,8 @@
     <div class="type-wrap" v-for="attr in attrsList" :key="attr.attrId">
       <div class="fl key">{{attr.attrName}}</div>
       <div class="fl value">
-        <ul class="type-list">
-            <li v-for="(item,index) in attr.attrValueList" :key="index">
+        <ul class="type-list" @click="addPropsItem($event,attr.attrId,attr.attrName)">
+            <li v-for="(item,index) in attr.attrValueList" :key="index"  >
                 {{item}}
             </li>
         </ul>
@@ -37,9 +37,20 @@ export default {
       //获取属性值
       ...mapGetters(["trademarkList","attrsList"])
   },
+  //子向父传递数据
   props:{
-    setTrademark:Function
+    setTrademark:Function,
+    setOptionProps:Function
   },
+  methods:{
+    addPropsItem(event,attrId,attrName){
+      //单击的为li标签
+      if(event.target.nodeName.toUpperCase()=="LI"){
+        // console.log(`${attrId}:${event.target.textContent}:${attrName}`);
+        this.setOptionProps(`${attrId}:${event.target.textContent}:${attrName}`);
+      }
+    }
+  }
 };
 </script>
 
