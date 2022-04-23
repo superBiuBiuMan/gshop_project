@@ -342,14 +342,18 @@ export default {
     },
     /* 移除品牌 */
     removeTrademark() {
-      this.options.trademark = "";
+      //为了及时更新,这里就不用这种了
+      // this.options.trademark = "";
+      this.$delete(this.options,"trademark");
       this.getShopList();
     },
     /* 更改品牌 trademark */
     setTrademark(trademark) {
       //如果是相同的,就不重新发送ajax请求
       if (this.options.trademark != trademark) {
-        this.options.trademark = trademark;
+        //为了及时更新,这里就不用这种了
+        // this.options.trademark = trademark;
+        this.$set(this.options,"trademark",trademark);
         //重写发送ajax请求
         this.getShopList();
       }
