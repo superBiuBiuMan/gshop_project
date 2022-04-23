@@ -145,7 +145,8 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
+          <!-- 分页器 -->
+          <!-- <div class="fr page">
             <div class="sui-pagination clearfix">
               <ul>
                 <li class="prev disabled">
@@ -173,7 +174,13 @@
               </ul>
               <div><span>共10页&nbsp;</span></div>
             </div>
-          </div>
+          </div> -->
+          <Pagination 
+          :currentPage="options.pageNo"
+          :total="totalPage"
+          :showPageNo="3"
+          @currentChange="currentChange"
+          />
         </div>
         <!--hotsale-->
         <div class="clearfix hot-sale">
@@ -310,6 +317,11 @@ export default {
   //   this.getShopList();
   // },
   methods: {
+    /* 分页器页码发生变化的回调 */
+    currentChange(newPage){
+      this.options.pageNo=newPage;
+      this.getShopList();
+    },
     /* 排序 flage为1或者2*/
     orderProduct(flagAfter){
       //降序升序切换
@@ -412,7 +424,7 @@ export default {
     // ...mapState({
     //   goodList:state=>state.search.productList.goodsList
     // })
-    ...mapGetters(["goodsList"]),
+    ...mapGetters(["goodsList","totalPage"]),
     // 相当于
     // goodsList(){
     //   return this.$store.goodsList

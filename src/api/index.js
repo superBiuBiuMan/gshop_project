@@ -2,9 +2,13 @@
 import axios from "./ajax.js";
 //假数据的ajax请求
 import mockAjax from "./mockAjax.js";
-/* 获取分类列表 */
+/* 获取分类列表 在线版*/
+// export function reqBaseCategoryList(){
+//     return axios.get("/product/getBaseCategoryList");
+// }
+/* 获取分类列表 离线版*/
 export function reqBaseCategoryList(){
-    return axios.get("/product/getBaseCategoryList");
+    return mockAjax.get("/product/getBaseCategoryList");
 }
 /* 获取轮播图 */
 export function reqBannerList(){

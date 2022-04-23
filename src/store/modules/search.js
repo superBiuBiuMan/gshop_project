@@ -47,6 +47,10 @@ const getters = {
     //返回属性列表
     attrsList(state){
         return state.productList.attrsList||[];
+    },
+    //返回总页数
+    totalPage(state){
+        return state.productList.total||0;
     }
 }
 

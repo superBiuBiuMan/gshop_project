@@ -7,6 +7,7 @@ import router from "@/router"
 import Nav from "@/components/Nav"
 //全局组件-分页器
 import Pagination from "@/components/Pagination"
+
 //引入swiper插件
 import "@/plugins/swiper.js";
 //引入假数据
