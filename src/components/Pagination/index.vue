@@ -200,7 +200,7 @@ export default {
       // 更新内部的当前页码
       this.myCurrentPage = page;
       // 通知父组件当前页码变化了
-      this.$emit("currentChange", page);
+      this.$emit("getShopList", page);
     },
   },
 };

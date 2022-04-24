@@ -21,7 +21,18 @@ const actions = {
     }
 }
 const getters = {
-
+    // 面包屑
+    categoryView(state){
+        return state.skuDetailInfo.categoryView||{};
+    },
+    // 商品详情
+    skuInfo(state){
+        return state.skuDetailInfo.skuInfo||{};
+    },
+    // 商品售卖属性
+    spuSaleAttrList(state){
+        return state.skuDetailInfo.spuSaleAttrList||[]
+    }
 }
 export default {
     state,

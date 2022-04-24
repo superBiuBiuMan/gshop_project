@@ -150,40 +150,12 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <!-- <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div> -->
           <Pagination 
           :currentPage="options.pageNo"
           :total="totalPage"
-          :showPageNo="3"
-          @currentChange="currentChange"
+          :showPageNo="5"
+          :pageSize="options.pageSize"
+          @getShopList="getShopList"
           />
         </div>
         <!--hotsale-->
@@ -296,7 +268,7 @@ export default {
         trademark: "", //品牌: "ID:品牌名称"示例: "1:苹果
         order: "1:desc", //排序 排序方式 1: 综合,2: 价格 asc: 升序,desc: 降序  示例: "1:desc"
         pageNo: 1, //页码
-        pageSize: 2, //每页数量
+        pageSize: 10, //每页数量
       },
     };
   },
@@ -322,10 +294,10 @@ export default {
   // },
   methods: {
     /* 分页器页码发生变化的回调 */
-    currentChange(newPage){
-      this.options.pageNo=newPage;
-      this.getShopList();
-    },
+    // currentChange(newPage){
+    //   this.options.pageNo=newPage;
+    //   this.getShopList();
+    // },
     /* 排序 flage为1或者2*/
     orderProduct(flagAfter){
       //降序升序切换
@@ -418,7 +390,9 @@ export default {
       };
     },
     /* 发送更新后的查询ajax请求 */
-    getShopList() {
+    getShopList(newPage=1) {
+      this.options.pageNo=newPage;
+      // this.getShopList();
       //发送ajax请求
       this.$store.dispatch("reqSearch", this.options);
     },

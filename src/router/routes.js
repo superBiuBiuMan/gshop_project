@@ -6,7 +6,7 @@ import Detail from "@/pages/Detail"
 
 export default [
     {
-        path:"/detail/:stuId",
+        path:"/detail/:skuId",
         name:"detail",
         component:Detail
     },
