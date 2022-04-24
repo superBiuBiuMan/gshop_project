@@ -37,5 +37,9 @@ VueRouter.prototype.replace = function replace(location, onResolve, onReject) {
 
 export default new VueRouter({
     mode: "history",
-    routes
+    routes,
+    //处理路由切换的时候滚动条位置问题
+    scrollBehavior(to, from, savedPosition){
+        return {x:0,y:0}
+    }
 })

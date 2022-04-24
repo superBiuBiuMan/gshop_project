@@ -2,10 +2,14 @@ import Home from "@/pages/Home"
 import Login from "@/pages/Login"
 import Register from "@/pages/Register"
 import Search from "@/pages/Search"
-// Home下方路由
-
+import Detail from "@/pages/Detail"
 
 export default [
+    {
+        path:"/detail/:stuId",
+        name:"detail",
+        component:Detail
+    },
     {
         path:'/',
         component:Home,

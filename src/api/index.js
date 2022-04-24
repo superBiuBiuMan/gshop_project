@@ -25,3 +25,7 @@ export const reqFloor=()=>mockAjax("/floor");//二个floor
 
 /* 获取搜索结果 */
 export const reqSearch=(searParams)=>axios.post("/list",searParams);
+// 获取商品详情
+export const reqDetailInfo=(skuId)=>{
+    return axios.get("/item/skuId");
+}

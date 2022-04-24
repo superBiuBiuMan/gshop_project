@@ -48,10 +48,11 @@ const actions = {
     //获取首页轮播
     async getBannerList({commit}){
         //调用ajax,发送,将返回值放在bannerList
-        let bannerList = await reqBannerList();
-        if(bannerList.code==200){
-            commit("GETBANNERLIST",bannerList.data);
-        }
+        //网络问题就先不发
+        // let bannerList = await reqBannerList();
+        // if(bannerList.code==200){
+        //     commit("GETBANNERLIST",bannerList.data);
+        // }
     },
     //今日推荐
     async getRecommend({commit}){
