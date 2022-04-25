@@ -7,11 +7,11 @@ import mockAjax from "./mockAjax.js";
 //     return axios.get("/product/getBaseCategoryList");
 // }
 /* 获取分类列表 离线版*/
-export function reqBaseCategoryList(){
+export function reqBaseCategoryList() {
     return mockAjax.get("/product/getBaseCategoryList");
 }
 /* 获取轮播图 */
-export function reqBannerList(){
+export function reqBannerList() {
     return axios.get("/cms/banner");
 }
 
@@ -20,12 +20,17 @@ export function reqBannerList(){
 // ƒ reqRecommend() {
 //     return (0,_mockAjax_js__WEBPACK_IMPORTED_MODULE_1__["default"])("/mock/todayRecommend");
 //   }
-export const reqRecommend=()=>mockAjax("/todayRecommend");//今日推荐
-export const reqFloor=()=>mockAjax("/floor");//二个floor
+export const reqRecommend = () => mockAjax("/todayRecommend"); //今日推荐
+export const reqFloor = () => mockAjax("/floor"); //二个floor
 
 /* 获取搜索结果 */
-export const reqSearch=(searParams)=>axios.post("/list",searParams);
-// 获取商品详情
-export const reqDetailInfo=(skuId)=>{
-    return axios.get("/item/"+skuId);
+export const reqSearch = (searParams) => axios.post("/list", searParams);
+/* 获取商品详情 */
+export const reqDetailInfo = (skuId) => {
+    return axios.get("/item/" + skuId);
+}
+/* 添加进入购物车或对已有物品数据更改 */
+// /api/cart/addToCart/{ skuId }/{ skuNum }
+export const reqAddOrUpdateCart = (skuId, skuNum) => {
+    return axios.post("/cart/addToCart/" + skuId + "/" + skuNum);
 }

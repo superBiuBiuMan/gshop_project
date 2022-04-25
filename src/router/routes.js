@@ -3,14 +3,22 @@ import Login from "@/pages/Login"
 import Register from "@/pages/Register"
 import Search from "@/pages/Search"
 import Detail from "@/pages/Detail"
-
+import AddCarSuccess from "@/pages/AddCartSuccess"
 export default [
     {
+        //添加购物车成功
+        path:"/addcartsuccess",
+        name:"addcartsuccess",
+        component:AddCarSuccess
+    },
+    {
+        //商品详情
         path:"/detail/:skuId",
         name:"detail",
         component:Detail
     },
     {
+        //主页
         path:'/',
         component:Home,
         // children:[
@@ -46,6 +54,7 @@ export default [
         }
     },
     {
+        //搜索商品
         // path:'/search/:category?',
         path:'/search/:keyword?',
         name:"search",

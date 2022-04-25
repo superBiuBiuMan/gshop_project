@@ -79,12 +79,13 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <!-- 注意change和blur的区别 -->
+                <input autocomplete="off" class="itxt" v-model="skuNum" @change="skuNum=skuNum>=1?parseInt(skuNum):1">
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a href="javascript:" class="mins" @click="skuNum=(--skuNum)>=1?skuNum:1">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:;" @click="addCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -348,7 +349,9 @@ import { mapGetters } from 'vuex'
     data(){
       return {
         //默认选中图片项
-        defaultChecked:0
+        defaultChecked:0,
+        //商品数量
+        skuNum:1
       }
     },
     computed:{
@@ -367,7 +370,28 @@ import { mapGetters } from 'vuex'
       this.getSkuDetailInfo();//为了可以服用
     },
     methods:{
-      //排他思想
+      //添加到购物车
+      async addCart(){
+        //由于是async所以返回的是promise
+        try{
+          let result = await this.$store.dispatch("getAddOrUpdateCart",{skuId:this.skuId,skuNum:this.skuNum});
+          if(result=="OK"){
+            alert("添加购物车成功,开始跳转...");
+            //跳转
+            this.$router.push({
+              name:"addcartsuccess",
+              query:{
+                skuNum:this.skuNum
+              }
+            });
+            //复杂数据存入sessionStorage
+            sessionStorage.setItem("SKUINFO_KEY",JSON.stringify(this.skuInfo));
+          }
+        }catch(error){
+          alert("添加购物车失败",error.message);
+        }
+      },
+      //使用排他思想
       changeChecked(nowData,allData){
         allData.forEach(item=>{
           //取消全部选中
