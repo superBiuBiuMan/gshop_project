@@ -8,7 +8,8 @@ import "nprogress/nprogress.css"
 //创建一个axios实例
 const service = axios.create({
     // baseURL: "http://39.98.123.211/api",
-    baseURL:"http://139.198.152.148:8200/api",
+    // baseURL:"http://139.198.152.148:8200/api",
+    baseURL:"http://gmall-h5-api.atguigu.cn/api",
     // baseURL:"/api",
     timeout: 2000
 });
@@ -20,6 +21,10 @@ service.interceptors.request.use((config) => {
     NProgress.start();
     //请求头添加uuid
     config.headers.userTempId=store.state.user.userTempId;
+    let token = store.state.user.token;
+    if(token){
+        config.headers.token = token;
+    }
     return config;
 })
 

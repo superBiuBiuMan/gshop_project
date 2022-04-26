@@ -31,7 +31,7 @@
               autocomplete="off"
               type="text" 
               :value="shopCart.skuNum"
-              @change="changeCartNum(shopCart,false,$event.target.value)"
+              @change="changeCartNum(shopCart,false,$event.target.value*1)"
               minnum="1"
               class="itxt"
             />
@@ -42,7 +42,8 @@
             <span class="sum">{{shopCart.cartPrice * shopCart.skuNum}}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a href="javascript:;" class="sindelet" @click="deleteOne(shopCart.skuId)">删除</a>
+            <!-- <a href="javascript:;" class="sindelet" >删除</a> -->
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -55,7 +56,7 @@
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a href="javascript:;" @click="deleteAll">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -81,6 +82,26 @@ export default {
     this.getShopCartList();
   },
   methods:{
+    // 删除所有选中购物车
+    async deleteAll(){
+      try {
+        await this.$store.dispatch("setDeleteCartAll");
+        this.getShopCartList();
+      } catch (error) {
+         alert("删除失败",error.message);
+      }
+    },
+    // 删除单个购物车
+    async deleteOne(skuId){
+      //接口挂了
+      try {
+        await this.$store.dispatch("setDeleteCartOne",skuId);
+        //重新获取数据
+        this.getShopCartList();
+      } catch (error) {
+        alert("删除失败",error.message);
+      }
+    },
     // 切换购物车选中状态
     async setCheckCart(shopCart){
       try {
@@ -140,17 +161,23 @@ export default {
     // 是否全部选中
     isCheckedAll:{
       get(){
-        return this.shopCartList.every(function(item){
-          return item.isChecked;
-        });
+        if(this.shopCartList.length===0){
+          return false;
+        }else{
+          return this.shopCartList.every(function(item){
+            return item.isChecked;
+          });
+        }
         //或者简写return this.shopCartList.every((item)=>item.isChecked);
       },
       async set(newValue){
-        console.log("isCheckedAll set被调用",newValue);
+        // console.log("isCheckedAll set被调用",newValue);
         //获取返回的结果,注意,此promise不是checkAll当中的promise,知识一个结果
         try{
-          let resultAll = await this.$store.dispatch("checkAll",newValue ? 1 : 0);
-          console.log(resultAll);
+          // let resultAll = await this.$store.dispatch("checkAll",newValue ? 1 : 0);
+          // console.log(resultAll);
+          await this.$store.dispatch("checkAll",newValue ? 1 : 0);
+
           //更新所有状态
           this.getShopCartList();
         }catch(error){

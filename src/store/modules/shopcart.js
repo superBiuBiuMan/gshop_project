@@ -1,7 +1,8 @@
 import {
     reqAddOrUpdateCart,
     reqCartList,
-    reqCheckCart
+    reqCheckCart,
+    reqDeleteCart
 } from "@/api"
 const state = {
     shopCartList:[],
@@ -13,6 +14,24 @@ const mutations = {
     },
 }
 const actions = {
+    // 删除全部选中购物车商品
+    async setDeleteCartAll({commit,dispatch,state}){
+        let promises=[];
+        state.shopCartList.forEach(item => {
+            if(!item.isChecked) return;
+            promises.push(dispatch("setDeleteCartOne",item.skuId));
+        });
+        return Promise.all(promises);
+    },
+    // 删除购物车商品单个
+    async setDeleteCartOne({commit},skuId){
+        let result = await reqDeleteCart(skuId);
+        if(result.code==200){
+            return "OK";
+        }else {
+            return Promise.reject(new Error("failed"));
+        }
+    },
     // 全选/全不选
     async checkAll({commit,dispatch,state},isChecked){
         let promiseall=[];//暂存所有更改的ajax请求结果
@@ -40,7 +59,10 @@ const actions = {
         let result = await reqCartList();
         if(result.code==200){
             //只返回购物车的列表信息
-            commit("SHOPCARTLIST",result.data[0].cartInfoList);
+            // console.log(result.data);
+            let temp = result.data[0] || {};
+            commit("SHOPCARTLIST",temp.cartInfoList||[]);
+            // commit("SHOPCARTLIST",result.data)
         }
     },
     // 购物车添加判断 解构赋值

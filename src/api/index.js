@@ -43,3 +43,22 @@ export const reqCartList = () => {
 export const reqCheckCart = (skuId, isChecked) => {
     return axios.get(`/cart/checkCart/${skuId}/${isChecked}`)
 }
+/* 删除购物车商品 */
+// /api/cart/deleteCart/{skuId}
+export const reqDeleteCart = (skuId) => {
+    return axios.delete(`/cart/deleteCart/${skuId}`);
+}
+/* 获取验证码 */
+// api/user/passport/sendCode/{phone}
+export const reqCode = (phone) => {
+    return axios.get("/user/passport/sendCode/" + phone);
+}
+/* 用户注册 */
+// /api/user/passport/register
+export const reqRegister = (info) => {
+    return axios.post("/user/passport/register",info);
+}
+/* 用户登录 */
+export const reqLogin = (userLoginInfo) => {
+    return axios.post("/user/passport/login",userLoginInfo);
+}
