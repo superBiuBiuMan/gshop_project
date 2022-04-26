@@ -4,7 +4,14 @@ import Register from "@/pages/Register"
 import Search from "@/pages/Search"
 import Detail from "@/pages/Detail"
 import AddCarSuccess from "@/pages/AddCartSuccess"
+import ShopCart from "@/pages/ShopCart"
 export default [
+    {
+        //购物车列表
+        path:"/shopcart",
+        name:"shopcart",
+        component:ShopCart
+    },
     {
         //添加购物车成功
         path:"/addcartsuccess",

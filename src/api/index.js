@@ -34,3 +34,12 @@ export const reqDetailInfo = (skuId) => {
 export const reqAddOrUpdateCart = (skuId, skuNum) => {
     return axios.post("/cart/addToCart/" + skuId + "/" + skuNum);
 }
+/* 获取购物车列表 */
+export const reqCartList = () => {
+    return axios.get("/cart/cartList");
+}
+/* 切换商品选中状态 */
+// /api/cart/checkCart/{skuId}/{isChecked}
+export const reqCheckCart = (skuId, isChecked) => {
+    return axios.get(`/cart/checkCart/${skuId}/${isChecked}`)
+}

@@ -1,7 +1,10 @@
-
+import {
+    getUserTempId
+} from "@/utils/userabout";
 const state = {
     //存储用户信息
-    userInfo:{}
+    // userInfo:{}
+    userTempId: getUserTempId()
 }
 const mutations = {
 

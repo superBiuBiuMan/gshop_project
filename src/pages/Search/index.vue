@@ -108,6 +108,8 @@
             </div>
           </div>
           <div class="goods-list">
+            事件委派方式添加进购物车
+
             <ul class="yui3-g">
               <li class="yui3-u-1-5" v-for="item in goodsList" :key="item.id">
                 <div class="list-wrap">
@@ -136,8 +138,7 @@
                   </div>
                   <div class="operate">
                     <a
-                      href="success-cart.html"
-                      target="_blank"
+                      href="javascript:;"
                       class="sui-btn btn-bordered btn-danger"
                       >加入购物车</a
                     >
@@ -293,6 +294,31 @@ export default {
   //   this.getShopList();
   // },
   methods: {
+    //添加到购物车
+    //   async addCart(event){
+    //   let skuId = event.target.dataset.skunum;
+    //   if(!skuId){
+    //     return;
+    //   }
+    //   //由于是async所以返回的是promise
+    //   try{
+    //     let result = await this.$store.dispatch("getAddOrUpdateCart",{skuId,skuNum:1});
+    //     if(result=="OK"){
+    //       alert("添加购物车成功,开始跳转...");
+    //       //跳转
+    //       this.$router.push({
+    //         name:"addcartsuccess",
+    //         query:{
+    //           skuNum:this.skuNum
+    //         }
+    //       });
+    //       //复杂数据存入sessionStorage
+    //       sessionStorage.setItem("SKUINFO_KEY",JSON.stringify(this.skuInfo));
+    //     }
+    //   }catch(error){
+    //     alert("添加购物车失败",error.message);
+    //   }
+    // },
     /* 分页器页码发生变化的回调 */
     // currentChange(newPage){
     //   this.options.pageNo=newPage;
