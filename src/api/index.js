@@ -62,3 +62,7 @@ export const reqRegister = (info) => {
 export const reqLogin = (userLoginInfo) => {
     return axios.post("/user/passport/login",userLoginInfo);
 }
+/* token校验 */
+export const loginCheck = () => {
+    return axios.get("/user/passport/auth/getUserInfo");
+}

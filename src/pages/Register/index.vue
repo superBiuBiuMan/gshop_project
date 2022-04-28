@@ -90,10 +90,12 @@
                 password:password1
               });
               alert("注册成功!");
-              this.phone="";
-              this.code="";
-              this.password1="";
-              this.password2="";
+              //跳转到登录界面
+              this.$router.push("/login");
+              // this.phone="";
+              // this.code="";
+              // this.password1="";
+              // this.password2="";
           } catch (error) {
             //注册失败提示
             alert(error.message);
