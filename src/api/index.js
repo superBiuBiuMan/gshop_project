@@ -56,11 +56,11 @@ export const reqCode = (phone) => {
 /* 用户注册 */
 // /api/user/passport/register
 export const reqRegister = (info) => {
-    return axios.post("/user/passport/register",info);
+    return axios.post("/user/passport/register", info);
 }
 /* 用户登录 */
 export const reqLogin = (userLoginInfo) => {
-    return axios.post("/user/passport/login",userLoginInfo);
+    return axios.post("/user/passport/login", userLoginInfo);
 }
 /* token校验 */
 export const loginCheck = () => {
@@ -73,4 +73,20 @@ export const loginOut = () => {
 /* 获取订单交易页信息 */
 export const reqTradeInfo = () => {
     return axios.get("/order/auth/trade");
+}
+/* 提交订单 */
+export const reqOrderInfo = (tradeNo, tradeInfoObj) => {
+    return axios.post(`/order/auth/submitOrder?tradeNo=${tradeNo}`, tradeInfoObj)
+}
+/* 获取用户地址信息 */
+export const reqAddressInfo = () => {
+    return axios.get("/user/userAddress/auth/findUserAddressList");
+}
+/* 从orderId获取支付信息 */
+export const reqPayInfo = (orderId) => {
+    return axios.get("/payment/weixin/createNative/" + orderId);
+}
+/* 获取订单支付情况(轮询) */
+export const queryPayStatus = (orderId) => {
+    return axios.get("/payment/weixin/queryPayStatus/" + orderId);
 }

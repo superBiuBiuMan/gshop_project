@@ -4,12 +4,20 @@ const {
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
-  // devServer: {
-  //   proxy: {
-  //     "/api": {
-  //       target:"http://39.99.186.36",
-  //       changeOrigin:true,//支持跨域
-  //     }
-  //   }
-  // }
+  devServer: {
+    // 小写的 proxy, 别被代码提示带偏
+    proxy: {
+      // 自定义代理名,请求时使用
+      '/api': {
+        // /dy 要映射到 target 域名
+        // 要跨域到的网址
+        target: 'http://gmall-h5-api.atguigu.cn', //结尾没有 / , 千万别多写
+        changeOrigin: true, //关键点: 代表需要跨域
+        // pathRewrite: {
+        // 	// ^ : 正则的字符串开头
+        // 	'^/api': '',
+        // },
+      },
+    },
+  },
 })

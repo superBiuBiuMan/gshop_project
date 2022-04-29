@@ -9,8 +9,8 @@ import "nprogress/nprogress.css"
 const service = axios.create({
     // baseURL: "http://39.98.123.211/api",
     // baseURL:"http://139.198.152.148:8200/api",
-    baseURL:"http://gmall-h5-api.atguigu.cn/api",
-    // baseURL:"/api",
+    // baseURL:"http://gmall-h5-api.atguigu.cn/api",
+    baseURL:"/api",
     timeout: 2000
 });
 // 设置拦截器
@@ -42,7 +42,8 @@ service.interceptors.response.use(
         //统一提示
         alert(error.message||"未知错误");
         //或者 throw error
-        return Promise.reject(error);
+        return Promise.reject(error);//带到下面去处理
+        // return new Promise(()=>{});//不处理错误
     }
 )
 

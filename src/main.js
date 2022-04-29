@@ -1,17 +1,24 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue';
 //vuex
-import store from "@/store"
-import router from "@/router"
+import store from "@/store";
+import router from "@/router";
+
 //全局组件-导航栏
-import Nav from "@/components/Nav"
+import Nav from "@/components/Nav";
 //全局组件-分页器
-import Pagination from "@/components/Pagination"
+import Pagination from "@/components/Pagination";
+
+// API请求文件
+import * as API from "@/api";
 
 //引入swiper插件
 import "@/plugins/swiper.js";
 //引入假数据
 import "@/mock/mockServe.js";
+//element-ui 
+import "@/plugins/elementui.js";
+
 //关闭开发提示
 Vue.config.productionTip = false
 //注册全局组件-导航栏
@@ -20,10 +27,12 @@ Vue.component(Pagination.name,Pagination);
 new Vue({
   beforeCreate(){
     //全局事件总线
-    Vue.prototype.$bus=this;
+    Vue.prototype.$bus = this;
+    //不使用vue的时候,若要发送ajax请求,可以吧请求对象API捆绑在Vue原型上
+    Vue.prototype.$API = API;
   },
   el:"#app",
-  render:h=>h(App),
+  render:h => h(App),
   store,
   router
 })

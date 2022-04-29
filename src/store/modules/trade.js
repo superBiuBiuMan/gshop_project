@@ -1,4 +1,7 @@
-import {reqTradeInfo} from "@/api"
+import {
+    reqTradeInfo,
+    reqAddressInfo,
+} from "@/api"
 const state = {
     tradeInfo:{},
 }
@@ -10,27 +13,38 @@ const mutations = {
 const actions = {
     async getTradeInfo({commit}){
         let result = await reqTradeInfo();
-        if(result.code == 200){
-            // 由于服务器关系,获取不到地址,这里传入和视频一样的地址信息
-            result.data.userAddressList = [
+        let addressInfo = await reqAddressInfo();//获取地址信息
+        if(result.code == 200 && addressInfo.code == 200){
+            // // 由于服务器关系,获取不到地址,这里传入和视频一样的地址信息
+            let fakeAddress = [
                 {
-                    consignee:"admin",
-                    id:2,
-                    isDefault:"1",
-                    phoneNum:"15011111111",
-                    userAddress:"北京市昌平区2",
-                    userId:2
+                    "id":1,
+                    "userAddress":"地球村008号",
+                    "userId":2,
+                    "provinceId":1,
+                    "consignee":"动感超人",
+                    "phoneNum":"13888888888",
+                    "isDefault":"1",
+                    "regionId":1,
+                    "fullAddress":"地球村008号动感超人堡垒"
                 },
                 {
-                    consignee:"张三",
-                    id:4,
-                    isDefault:"0",
-                    phoneNum:"13700000000",
-                    userAddress:"北京市昌平区3",
-                    userId:2
+                    "id":2,
+                    "userAddress":"地球村009号",
+                    "userId":2,
+                    "provinceId":1,
+                    "consignee":"西瓜超人",
+                    "phoneNum":"13666666666",
+                    "isDefault":"0",
+                    "regionId":1,
+                    "fullAddress":"地球村009号西瓜超人堡垒"
                 }
             ];
+            result.data.userAddressList = addressInfo.data.length != 0 ? addressInfo.data : fakeAddress
+            // result.data.userAddressList = addressInfo.data || fakeAddress;空对象空数组也是真啊!
             commit("RECEIVE_TRADEINFO",result.data);
+        }else{
+            alert(result.message);
         }
     }
 }

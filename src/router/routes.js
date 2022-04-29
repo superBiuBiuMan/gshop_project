@@ -6,7 +6,28 @@ import Detail from "@/pages/Detail"
 import AddCarSuccess from "@/pages/AddCartSuccess"
 import ShopCart from "@/pages/ShopCart"
 import Trade from "@/pages/Trade"
+import Center from "@/pages/Center"
+import Pay from "@/pages/Pay"
+import PaySuccess from "@/pages/PaySuccess"
 export default [
+    {
+        //我的订单/个人中心
+        path:"/center",
+        name:"center",
+        component:Center
+    },
+    {
+        //支付界面
+        path:"/pay",
+        name:"pay",
+        component:Pay
+    },
+    {
+        //支付成功界面
+        path:"/paysuccess",
+        name:"paysuccess",
+        component:PaySuccess
+    },
     {
         //结算购物车页面
         path:"/trade",

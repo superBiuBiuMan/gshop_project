@@ -88,7 +88,8 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <!-- <router-link class="subBtn" to="/pay">提交订单</router-link> -->
+      <a class="subBtn" @click="orderShop">提交订单</a>
     </div>
   </div>
 </template>
@@ -117,6 +118,35 @@
       this.sendTradeInfo();
     },
     methods:{
+      // 提交订单
+      async orderShop(){
+        let {tradeNo} = this.tradeInfo;
+        let {consignee,phoneNum,userAddress} = this.defaultUserAddress;
+        let infoObj = {
+          consignee:consignee,
+          consigneeTel:phoneNum,
+          deliveryAddress:userAddress,
+          paymentWay:"ONLINE",
+          orderComment:this.userWant,
+          orderDetailList:this.detailArrayList
+        }
+        try {
+          // 提交订单信息
+          let result = await this.$API.reqOrderInfo(tradeNo,infoObj);
+          if(result.code == 200){
+            //提交订单成功
+            alert("提交订单成功!");
+            //跳转,附带orderId 订单号
+            this.$router.push("/pay?orderNo="+result.data);
+          }else{
+            //不能重复提交订单 status依旧为201!!!
+            alert(result.message);
+          }
+        } catch (error) {
+          //提交订单失败
+        }
+        
+      },
       // 改变默认地址
       changeDefault(userAddress,userAddressList){
          //传入引用数据类型,然后
