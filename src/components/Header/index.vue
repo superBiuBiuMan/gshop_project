@@ -6,10 +6,10 @@
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
           <!-- 已登录状态 -->
-          <p v-if="$store.state.user.userInfo">
+          <p v-if="$store.state.user.userInfo.name">
             <!-- <a href="###">登录</a> -->
             <a href="javascript:;">{{$store.state.user.userInfo.name}}</a>
-            <a href="javascript:;"> 退出登录</a>
+            <a href="javascript:;" @click="loginOut">退出登录</a>
           </p>
           <!-- 未登录 -->
           <p v-else>
@@ -76,6 +76,17 @@ export default {
     this.$bus.$off("clearSearch");
   },
   methods: {
+    /* 退出登录 */
+    async loginOut(){
+      try {
+        await this.$store.dispatch("setLoginOut");
+        alert("退出登录成功!");
+        //回到主页
+        this.$router.push("/");
+      } catch (error) {
+        alert("退出失败!" + error);
+      }
+    },
     /* 清空搜索框 */
     clearSearch(){
       this.searchKeyWord="";

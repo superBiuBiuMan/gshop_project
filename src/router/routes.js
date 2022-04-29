@@ -5,7 +5,15 @@ import Search from "@/pages/Search"
 import Detail from "@/pages/Detail"
 import AddCarSuccess from "@/pages/AddCartSuccess"
 import ShopCart from "@/pages/ShopCart"
+import Trade from "@/pages/Trade"
 export default [
+    {
+        //结算购物车页面
+        path:"/trade",
+        name:"trade",
+        component:Trade
+    }
+    ,
     {
         //购物车列表
         path:"/shopcart",

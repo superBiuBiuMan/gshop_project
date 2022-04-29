@@ -61,16 +61,17 @@ router.beforeEach(async (to,from,next) => {
             if(userInfo){
                 next();
             }else{
-            //判断token是否过期
+                //从localStorage获取的,这里判断token是否过期
                 try {
                     await store.dispatch("getUserInfo");
                     //没有过期,放行
                     next();
                 } catch (error) {
                     //代表登录过期或者其他错误
-                    store.dispatch("restUserInfo");//清空token数据
                     alert(error.message);
-                    next("/login");
+                    store.dispatch("restUserInfo");//清空token数据
+                    // store.dispatch("setLoginOut");
+                    next("/login?redirect="+to.path);
                 } 
             }
         }

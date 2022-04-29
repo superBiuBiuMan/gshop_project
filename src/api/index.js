@@ -66,3 +66,11 @@ export const reqLogin = (userLoginInfo) => {
 export const loginCheck = () => {
     return axios.get("/user/passport/auth/getUserInfo");
 }
+/* 退出登录 */
+export const loginOut = () => {
+    return axios.get("/user/passport/logout");
+}
+/* 获取订单交易页信息 */
+export const reqTradeInfo = () => {
+    return axios.get("/order/auth/trade");
+}

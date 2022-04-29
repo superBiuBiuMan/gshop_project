@@ -8,14 +8,17 @@ import {
     reqRegister,
     reqCode,
     reqLogin,
-    loginCheck
+    loginCheck,
+    loginOut
 } from "@/api"
 
 const state = {
     // 存储用户信息
     userInfo:{},
+    //临时id,用户购物车
     userTempId: getUserTempId(),
-    token:getItem()
+    //登录后产生的token
+    token:getItem(),
 }
 const mutations = {
     RESET_INFO(state){
@@ -30,6 +33,16 @@ const mutations = {
     }
 }
 const actions = {
+    // 退出登录
+    async setLoginOut({dispatch}){
+        let result = await loginOut();
+        if( result.code == 200 ){
+            dispatch("restUserInfo");
+            return "OK";
+        }else{
+            return Promise.reject(result.message);
+        }
+    },
     // 过期清空数据
     restUserInfo({commit}){
         removeItem();
