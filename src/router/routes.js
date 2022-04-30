@@ -9,12 +9,30 @@ import Trade from "@/pages/Trade"
 import Center from "@/pages/Center"
 import Pay from "@/pages/Pay"
 import PaySuccess from "@/pages/PaySuccess"
+import MyOrder from "@/pages/Center/MyOrder"
+import OrderGroup from "@/pages/Center/OrderGroup"
 export default [
     {
         //我的订单/个人中心
         path:"/center",
-        name:"center",
-        component:Center
+        component:Center,
+        children:[
+            {
+                path:"myorder",
+                name:"myorder",
+                component:MyOrder
+            },
+            {
+                path:"ordergroup",
+                name:"ordergroup",
+                component:OrderGroup
+            },
+            //重定向
+            {
+                path:"",
+                redirect:"myorder"
+            }
+        ]
     },
     {
         //支付界面

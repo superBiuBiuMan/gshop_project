@@ -90,3 +90,7 @@ export const reqPayInfo = (orderId) => {
 export const queryPayStatus = (orderId) => {
     return axios.get("/payment/weixin/queryPayStatus/" + orderId);
 }
+/* 获取我的订单列表 */
+export const reqMyOrderInfo = (page,limit) => {
+    return axios.get(`/order/auth/${page}/${limit}`);
+}
