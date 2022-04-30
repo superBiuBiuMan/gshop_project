@@ -76,11 +76,11 @@ router.beforeEach(async (to,from,next) => {
             }
         }
     }else{
-        //token不存在
-        //代表用户没登录或者之前也没登录过
-        //后期我们需 要判断用户是不是去订单相关的页面，如果是那么就先登录
-        next();
-        // next("/login");
+        if(to.path.indexOf("/trade") ==0 || to.path.startsWith("/pay") || to.path.startsWith("/center")){
+            next("/login?redirect="+to.path);
+        }else{
+            next();
+        }
     }
 });
 export default router;

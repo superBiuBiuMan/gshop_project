@@ -132,8 +132,7 @@
                  clearInterval(this.timer);
                  this.timer = null;
                  this.$router.push("/paysuccess");
-
-
+                 done();
                 // if(this.payStatu != 0){
                 //   clearInterval(this.timer);
 						    //   this.timer = null;

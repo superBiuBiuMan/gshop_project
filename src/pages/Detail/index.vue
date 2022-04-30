@@ -384,7 +384,7 @@ import { mapGetters } from 'vuex'
                 skuNum:this.skuNum
               }
             });
-            //复杂数据存入sessionStorage
+            //复杂数据(商品信息)存入sessionStorage
             sessionStorage.setItem("SKUINFO_KEY",JSON.stringify(this.skuInfo));
           }
         }catch(error){

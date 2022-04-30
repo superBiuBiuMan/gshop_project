@@ -151,7 +151,7 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <Pagination 
+          <MyPagination 
           :currentPage="options.pageNo"
           :total="totalPage"
           :showPageNo="5"

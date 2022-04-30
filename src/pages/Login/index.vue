@@ -75,6 +75,21 @@
         // isSelected:true,
       }
     },
+    // beforeRouterEnter(to,from,next){
+    //   // 在渲染该组件的对应路由被验证前调用
+    //   // 不能获取组件实例 `this` ！
+    //   // 因为当守卫执行时，组件实例还没被创建！
+    //   /* 所以这样子解决 */
+    //   next(vm=>{
+    //     if(vm.$store.state.user.token){
+    //       //token存在
+    //       next("/");
+    //     }else{
+    //       //不存在跳转登录
+    //       next();
+    //     }
+    //   });
+    // },
     methods:{
       // 登录
       async login(){
@@ -169,7 +184,7 @@
                 width: 37px;
                 height: 32px;
                 border: 1px solid #ccc;
-                background: url('@/assets/icons.png') no-repeat -10px -201px;
+                background: url('@/assets/image/icons.png') no-repeat -10px -201px;
                 box-sizing: border-box;
                 border-radius: 2px 0 0 2px;
               }

@@ -11,6 +11,7 @@ import Pay from "@/pages/Pay"
 import PaySuccess from "@/pages/PaySuccess"
 import MyOrder from "@/pages/Center/MyOrder"
 import OrderGroup from "@/pages/Center/OrderGroup"
+import store from "@/store/index.js"
 export default [
     {
         //我的订单/个人中心
@@ -38,19 +39,46 @@ export default [
         //支付界面
         path:"/pay",
         name:"pay",
-        component:Pay
+        component:Pay,
+        // 只有从交易页面(创建订单)页面才能跳转到支付页面
+        beforeEnter:(to,from,next) => {
+            if(from.path === '/trade'){
+                next();
+            }else{
+                alert("只有从交易页面(创建订单)页面才能跳转到支付页面");
+                next("/");
+            }
+        }
     },
     {
         //支付成功界面
         path:"/paysuccess",
         name:"paysuccess",
-        component:PaySuccess
+        component:PaySuccess,
+        // 只有从支付页面才能跳转到支付成功页面
+        beforeEnter:(to,from,next) => {
+            if(from.path === '/pay'){
+                next();
+            }else{
+                alert("只有从支付页面才能跳转到支付成功页面");
+                next("/");
+            }
+        }
     },
     {
         //结算购物车页面
         path:"/trade",
         name:"trade",
-        component:Trade
+        component:Trade,
+        // 只有从购物车界面才能跳转到交易页面(创建订单)
+         beforeEnter:(to,from,next) => {
+            if(from.path === '/shopcart'){
+                next();
+            }else{
+                // alert("只有从购物车界面才能跳转到交易页面")
+                next("/");
+            }
+        }
     }
     ,
     {
@@ -63,7 +91,19 @@ export default [
         //添加购物车成功
         path:"/addcartsuccess",
         name:"addcartsuccess",
-        component:AddCarSuccess
+        component:AddCarSuccess,
+        // 只有携带了skuNum和sessionStorage内部有skulnfo数据才能看到添加购物车成功的界面
+        beforeEnter:(to,from,next) => {
+            let skuName = to.query.skuName;
+            let skuInfo = sessionStorage.getItem("SKUINFO_KEY");
+            if(skuName && skuInfo){
+                //均存在值
+                next();//放行
+            }else{
+                alert("错误!");
+                next("/");
+            }
+        }
     },
     {
         //商品详情
@@ -75,19 +115,6 @@ export default [
         //主页
         path:'/',
         component:Home,
-        // children:[
-        //     {
-        //         path:"/",
-        //         name:"nav",
-        //         component:Nav
-        //     },
-        //     //只显示一个还是都会显示?
-        //     {
-        //         path:"/",
-        //         name:"brand",
-        //         component:Brand
-        //     }
-        // ]
     },
     {
         path:'/login',
@@ -96,6 +123,15 @@ export default [
         // 元数据
         meta:{
             isHidenFooter:true
+        },
+        // 路由独享守卫
+        beforeEnter:(to,from,next) =>{
+            //token存在
+            if(store.state.user.token){
+                next();
+            }else{
+                next();
+            }
         }
     },
     {

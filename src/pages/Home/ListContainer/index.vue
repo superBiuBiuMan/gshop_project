@@ -192,7 +192,7 @@ export default {
           width: 25%;
 
           .list-item {
-            background-image: url('@/assets/icons.png');
+            background-image: url('@/assets/image/icons.png');
             width: 61px;
             height: 40px;
             display: block;

@@ -81,7 +81,7 @@ export default {
 
       .fr {
         float: right;
-        background-image: url('@/assets/icons.png');
+        background-image: url('@/assets/image/icons.png');
 
         width: 66px;
         height: 25px;

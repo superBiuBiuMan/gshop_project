@@ -6,8 +6,8 @@ import router from "@/router";
 
 //全局组件-导航栏
 import Nav from "@/components/Nav";
-//全局组件-分页器
-import Pagination from "@/components/Pagination";
+//全局组件-自定义分页器
+import MyPagination from "@/components/Pagination";
 
 // API请求文件
 import * as API from "@/api";
@@ -23,7 +23,7 @@ import "@/plugins/elementui.js";
 Vue.config.productionTip = false
 //注册全局组件-导航栏
 Vue.component(Nav.name,Nav);//Nav.name 为Nav,所以后面可以只用Nav来进行使用这个组件
-Vue.component(Pagination.name,Pagination);
+Vue.component(MyPagination.name,MyPagination);
 new Vue({
   beforeCreate(){
     //全局事件总线

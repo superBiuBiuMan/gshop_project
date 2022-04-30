@@ -73,13 +73,32 @@
       </div>
       <!-- 分页器 -->
       <div class="choose-order">
-        <Pagination
+        <!-- element-ui分页器 -->
+        <!-- total 数据总数 -->
+        <!-- current-page 当前页 可以通过@current-change来获取用户单击的页码数 -->
+        <!-- layout 布局方式 -->
+        <!-- pager-count	连续页码数(每页的按钮数) -->
+        <!-- page-size 每一页的显示的数据数量是多少个  要在page-sizes当中找到对应值才可以设置成功! -->
+        <!-- page-sizes 下拉列表框选择每一个显示的数据量的值,要通过回调函数 @size-change来获取选择的size-->
+       <el-pagination
+        :total="total"
+        :current-page="page"
+        layout="prev,pager,next,jumper,->,sizes,total"
+        :page-size="limit"
+        :page-sizes="[3,6,9,12]"
+        :pager-count="7"
+        @current-change="getMyOrderInfo"
+        @size-change="changeLimitSize"
+       ></el-pagination>
+
+        <!-- 自定义分页器 -->
+        <!-- <MyPagination
           :currentPage="page"
           :total="total"
           :showPageNo="5"
           :pageSize="limit"
           @currentPage="getMyOrderInfo"
-        />
+        /> -->
       </div>
     </div>
     <!--猜你喜欢-->
@@ -152,16 +171,22 @@ export default {
     this.getMyOrderInfo();  
   },
   methods:{
+    // 改变每一页显示的数据
+    changeLimitSize(size){
+      this.limit = size;
+      // this.getMyOrderInfo(this.page);
+      this.getMyOrderInfo();
+    },
     // 获取我的订单信息
     async getMyOrderInfo(page=1){
       this.page=page;
-      console.log(page);
       let result = await this.$API.reqMyOrderInfo(this.page,this.limit)
       if(result.code == 200){
         this.records = result.data.records;
         this.total = result.data.total;
       }else{
         alert(result.message);
+        this.$router.push("/login");
       }
     }
   }
