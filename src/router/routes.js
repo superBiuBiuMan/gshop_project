@@ -1,16 +1,35 @@
-import Home from "@/pages/Home"
-import Login from "@/pages/Login"
-import Register from "@/pages/Register"
-import Search from "@/pages/Search"
-import Detail from "@/pages/Detail"
-import AddCarSuccess from "@/pages/AddCartSuccess"
-import ShopCart from "@/pages/ShopCart"
-import Trade from "@/pages/Trade"
-import Center from "@/pages/Center"
-import Pay from "@/pages/Pay"
-import PaySuccess from "@/pages/PaySuccess"
-import MyOrder from "@/pages/Center/MyOrder"
-import OrderGroup from "@/pages/Center/OrderGroup"
+// import Home from "@/pages/Home"
+const Home = () => import("@/pages/Home")
+// 相当于
+// const Home = function(){
+//     return import("@/pages/Home")
+// }
+
+const Login = () => import("@/pages/Login")
+const Register = () => import("@/pages/Register")
+const Search = () => import("@/pages/Search")
+const Detail = () => import("@/pages/Detail")
+const AddCarSuccess = () => import("@/pages/AddCartSuccess")
+const ShopCart = () => import("@/pages/ShopCart")
+const Trade = () => import("@/pages/Trade")
+const Center = () => import("@/pages/Center")
+const Pay = () => import("@/pages/Pay")
+const PaySuccess = () => import("@/pages/PaySuccess")
+const MyOrder = () => import("@/pages/Center/MyOrder")
+const OrderGroup = () => import("@/pages/Center/OrderGroup")
+
+// import Login from "@/pages/Login"
+// import Register from "@/pages/Register"
+// import Search from "@/pages/Search"
+// import Detail from "@/pages/Detail"
+// import AddCarSuccess from "@/pages/AddCartSuccess"
+// import ShopCart from "@/pages/ShopCart"
+// import Trade from "@/pages/Trade"
+// import Center from "@/pages/Center"
+// import Pay from "@/pages/Pay"
+// import PaySuccess from "@/pages/PaySuccess"
+// import MyOrder from "@/pages/Center/MyOrder"
+// import OrderGroup from "@/pages/Center/OrderGroup"
 import store from "@/store/index.js"
 export default [
     {
