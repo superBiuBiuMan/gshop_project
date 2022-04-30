@@ -156,7 +156,7 @@
           :total="totalPage"
           :showPageNo="5"
           :pageSize="options.pageSize"
-          @getShopList="getShopList"
+          @currentPage="getShopList"
           />
         </div>
         <!--hotsale-->

@@ -73,32 +73,13 @@
       </div>
       <!-- 分页器 -->
       <div class="choose-order">
-        <div class="pagination">
-          <ul>
-            <li class="prev disabled">
-              <a href="javascript:">«上一页</a>
-            </li>
-            <li class="page actived">
-              <a href="javascript:">1</a>
-            </li>
-            <li class="page">
-              <a href="javascript:">2</a>
-            </li>
-            <li class="page">
-              <a href="javascript:">3</a>
-            </li>
-            <li class="page">
-              <a href="javascript:">4</a>
-            </li>
-
-            <li class="next disabled">
-              <a href="javascript:">下一页»</a>
-            </li>
-          </ul>
-          <div>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;共2页&nbsp;</span>
-          </div>
-        </div>
+        <Pagination
+          :currentPage="page"
+          :total="total"
+          :showPageNo="5"
+          :pageSize="limit"
+          @currentPage="getMyOrderInfo"
+        />
       </div>
     </div>
     <!--猜你喜欢-->
@@ -168,12 +149,14 @@ export default {
     }
   }, 
   mounted(){
-    this.getMyOrderInfo(this.page,this.limit);  
+    this.getMyOrderInfo();  
   },
   methods:{
     // 获取我的订单信息
-    async getMyOrderInfo(page,limit){
-      let result = await this.$API.reqMyOrderInfo(page,limit)
+    async getMyOrderInfo(page=1){
+      this.page=page;
+      console.log(page);
+      let result = await this.$API.reqMyOrderInfo(this.page,this.limit)
       if(result.code == 200){
         this.records = result.data.records;
         this.total = result.data.total;
