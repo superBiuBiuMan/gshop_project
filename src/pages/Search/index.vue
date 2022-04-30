@@ -118,7 +118,9 @@
                       <img :src="item.defaultImg" />
                     </a> -->
                     <router-link :to="'/detail/'+item.id">
-                      <img :src="item.defaultImg" />
+                      <!-- <img :src="item.defaultImg" /> -->
+                      <!-- 懒加载模式 -->
+                      <img v-lazy="item.defaultImg" />
                     </router-link>
                   </div>
                   <div class="price">

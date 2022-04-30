@@ -18,6 +18,17 @@ import "@/plugins/swiper.js";
 import "@/mock/mockServe.js";
 //element-ui 
 import "@/plugins/elementui.js";
+//图片懒加载
+import VueLazyload from "vue-lazyload";
+Vue.use(VueLazyload);
+//图片懒加载过渡图片
+const loadimage = require('@/assets/image/loading.gif')
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  // error: errorimage,//出错的图片
+  loading: loadimage,
+  attempt: 1//加载错误后最大尝试次数
+})
 
 //关闭开发提示
 Vue.config.productionTip = false
