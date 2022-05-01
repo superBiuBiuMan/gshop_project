@@ -4,13 +4,22 @@ import {
 } from "@/api"
 const state = {
     tradeInfo:{},
+    changAddress:{}
 }
 const mutations = {
+    RECEIVE_CHANGEADDRESSINFO(state,value){
+        state.changAddress = value;
+    },
     RECEIVE_TRADEINFO(state,value){
         state.tradeInfo = value;
     }
 }
 const actions = {
+    //用户修改地址信息暂存
+    setChangeAddressInfo({commit},value){
+        commit("RECEIVE_CHANGEADDRESSINFO",value);
+    },
+    //获取商品信息
     async getTradeInfo({commit}){
         let result = await reqTradeInfo();
         let addressInfo = await reqAddressInfo();//获取地址信息

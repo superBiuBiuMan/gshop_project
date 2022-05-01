@@ -60,10 +60,14 @@ const actions = {
     },
     // login
     async login({commit},info){
-        let result = await reqLogin(info);
+        let {phone,password,isKeepSecret} = info;
+        let result = await reqLogin({phone,password});
         if(result.code == 200){
-            //暂存到localStorage
             commit("SETTOKEN_USER",result.data.token);
+            //暂存到localStorage
+            // if(isKeepSecret){
+            //     //用户勾选了存储信息
+            // }
             setItem(result.data.token);
             return "OK";
         }else{

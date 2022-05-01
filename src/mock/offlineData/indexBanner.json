@@ -1,0 +1,28 @@
+{
+    "code": 200,
+    "message": "成功",
+    "data": [
+        {
+            "id": 1,
+            "title": "小米电视4A 70英寸 4K超高清 HDR 二级能效 2GB+16GB L70M5-4A 内置小爱 智能网络液晶平板教育电视",
+            "imageUrl": "/images/rBHu8l_6ut-AMz1WAAJLX6bBPuo322.jpg",
+            "linkUrl": "https://dreamlove.top/",
+            "sort": 0
+        },
+        {
+            "id": 3,
+            "title": "test",
+            "imageUrl": "/images/rBHu8l_6usyAeHgLAActhhatATY000.jpg",
+            "linkUrl": "https://dreamlove.top/",
+            "sort": 0
+        },
+        {
+            "id": 2,
+            "title": "华为 HUAWEI P40 麒麟990 5G SoC芯片 5000万超感知徕卡三摄 30倍数字变焦 8GB+128GB亮黑色全网通5G手机",
+            "imageUrl": "/images/rBHu8l_6utWAVk0hAAPa09gkjzc792.jpg",
+            "linkUrl": "https://dreamlove.top/",
+            "sort": 1
+        }
+    ],
+    "ok": true
+}

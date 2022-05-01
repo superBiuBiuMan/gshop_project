@@ -21,11 +21,11 @@
               </div>
               <div class="input-text clearFix">
                 <span class="pwd"></span>
-                <input type="text" placeholder="请输入密码" v-model="password">
+                <input type="password" placeholder="请输入密码" v-model="password">
               </div>
               <div class="setting clearFix">
                 <label class="checkbox inline">
-                  <input name="m1" type="checkbox" value="2" checked="">
+                  <input name="m1" type="checkbox" value="2" v-model="isKeepSecret" >
                   自动登录
                 </label>
                 <span class="forget">忘记密码？</span>
@@ -71,7 +71,9 @@
     data(){
       return {
         phone:"",
-        password:""
+        password:"",
+        // 是否记住密码 
+        isKeepSecret:false
         // isSelected:true,
       }
     },
@@ -93,11 +95,12 @@
     methods:{
       // 登录
       async login(){
-        let { phone,password } = this;
+        let { phone,password,isKeepSecret} = this;
         if(phone && password){
           //发送请求
           try {
-            await this.$store.dispatch("login",{phone,password});
+            //不管有没有勾选,都设置为了存储,
+            await this.$store.dispatch("login",{phone,password,isKeepSecret});
             alert("登录成功!");
             let redirect = this.$route.query.redirect || "/";
             this.$router.push(redirect);

@@ -35,6 +35,8 @@ Vue.config.productionTip = false
 //注册全局组件-导航栏
 Vue.component(Nav.name,Nav);//Nav.name 为Nav,所以后面可以只用Nav来进行使用这个组件
 Vue.component(MyPagination.name,MyPagination);
+
+
 new Vue({
   beforeCreate(){
     //全局事件总线

@@ -2,6 +2,7 @@
 import axios from "./ajax.js";
 //假数据的ajax请求
 import mockAjax from "./mockAjax.js";
+
 /* 获取分类列表 在线版*/
 // export function reqBaseCategoryList(){
 //     return axios.get("/product/getBaseCategoryList");
@@ -10,10 +11,15 @@ import mockAjax from "./mockAjax.js";
 export function reqBaseCategoryList() {
     return mockAjax.get("/product/getBaseCategoryList");
 }
-/* 获取轮播图 */
+/* 获取轮播图在线版 */
+// export function reqBannerList() {
+//     return axios.get("/cms/banner");
+// }
+/* 获取轮播图离线版 */
 export function reqBannerList() {
-    return axios.get("/cms/banner");
+    return mockAjax.get("/cms/banner");
 }
+
 
 /* 假数据 */
 // 引入后输出是这个
@@ -93,4 +99,36 @@ export const queryPayStatus = (orderId) => {
 /* 获取我的订单列表 */
 export const reqMyOrderInfo = (page,limit) => {
     return axios.get(`/order/auth/${page}/${limit}`);
+}
+
+
+//------------------------------------------测试区------------------------
+// 获取地址大区列表
+// api/user/userAddress/auth/findBaseRegion GET
+export const reqAddressBaseRegion = () => {
+    return axios.get("user/userAddress/auth/findBaseRegion");
+}
+
+// 根据地址大区获取省份
+// /api/user/userAddress/auth/findBaseProvinceByRegionId/{regionId} GET
+export const reqAddressBaseProvinceByRegionId = (regionId) => {
+    return axios.get(`/user/userAddress/auth/findBaseProvinceByRegionId/${regionId}`)
+}
+
+// 新增用户地址
+// /api/user/userAddress/auth/save POST
+export const reqSaveUserAddress = (userAddressInfo) => {
+    return axios.post(`/user/userAddress/auth/save`,userAddressInfo)
+}
+
+//删除用户地址
+//  /api/user/userAddress/auth/delete/{userAddressId} GET
+export const reqRemoveUserAddress = (userAddressId) => {
+    return axios.get(`/user/userAddress/auth/delete/${userAddressId}`)
+}
+
+// 更新用户地址
+//  /api/user/userAddress/auth/update POST
+export const reqUpdateUserAddress = (userAddressInfo) => {
+    return axios.post(`/user/userAddress/auth/update`, userAddressInfo)
 }

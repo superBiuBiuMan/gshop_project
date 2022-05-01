@@ -1,9 +1,13 @@
 <template>
+<div>
   <div class="trade-container">
     <h3 class="title">填写并核对订单信息</h3>
     <div class="content">
-      <h5 class="receive">收件人信息</h5>
-      <div class="address clearFix" v-for="userAddress in userAddressList" :key="userAddress.id">
+      <h5 class="receive">
+        收件人信息
+        <a href="javascript:;" @click="addAddress">新增收货地址</a>
+      </h5>
+      <div class="address clearFix" v-for="(userAddress,index) in userAddressList" :key="userAddress.id">
         <!-- <span class="username selected">{{userAddress.consignee}}</span> -->
         <span class="username" :class="{selected:userAddress.isDefault == 1}">{{userAddress.consignee}}</span>
         <p @click="changeDefault(userAddress,userAddressList)">
@@ -11,6 +15,11 @@
           <span class="s2">{{userAddress.phoneNum}}</span>
           <span class="s3" v-if="userAddress.isDefault == 1">默认地址</span>
         </p>
+        <span class="place" style="float: right;">
+          <!-- 通过index可以获取到userAddress.id  -->
+          <a href="javascript:;" style="margin-left: 150px;" @click="updateUserAddress(index)">修改</a>
+          <a href="javascript:;" @click="removeUserAddress(userAddress.id)">删除</a>
+        </span>
       </div>
       
       <div class="line"></div>
@@ -92,16 +101,23 @@
       <a class="subBtn" @click="orderShop">提交订单</a>
     </div>
   </div>
+        <!-- 地址信息  -->
+        <AddressInfoModel v-model="controlAddressShow" @cancelAddress="clickCancel" @confirmAddress="clickConfirm"/>
+  </div>
 </template>
 
 <script>
+  import AddressInfoModel from "@/components/AddressModel"
   import {mapGetters, mapState} from "vuex"
   export default {
     name: 'Trade',
+    components:{AddressInfoModel},
     data(){
       return {
         // 用户留言 
-        userWant:""
+        userWant:"",
+        //地址信息对话框显示和隐藏
+        controlAddressShow:false
       }
     },
     computed:{
@@ -118,6 +134,45 @@
       this.sendTradeInfo();
     },
     methods:{
+      // 删除地址
+      async removeUserAddress(id){
+          if(confirm("是否要删除?")){
+            let result = await this.$API.reqRemoveUserAddress(id);
+            if(result.code == 200){
+              //删除地址成功
+              //刷新界面 后面愿意优化的话可以把获取地址信息和商品信息分离开
+              this.sendTradeInfo();
+            }else{
+              console.log(result.message||"修改地址失败!");
+            }
+          }
+      },
+      // 修改地址
+      updateUserAddress(index){
+        //获取地址信息
+        console.log("用户单击修改地址信息");
+        let addInfo = this.userAddressList[index];
+        console.log("输出根据索引找到的地址信息",addInfo);
+        this.$store.state.trade.changAddress = addInfo;
+        this.controlAddressShow = true;
+        //传递给地址信息模块
+        // this.$bus.$on("addClickEvent")
+      },
+      // 地址弹出框用户单击取消
+      clickCancel(){
+        this.controlAddressShow=false;
+      },
+      // 地址弹出框用户单击确定
+      clickConfirm(){
+        this.controlAddressShow=false;
+        //刷新界面 后面愿意优化的话可以把获取地址信息和商品信息分离开
+        this.sendTradeInfo();
+      },
+      // 添加地址
+      addAddress(){
+        this.$store.state.trade.changAddress = {}
+        this.controlAddressShow = true;
+      },
       // 提交订单
       async orderShop(){
         let {tradeNo} = this.tradeInfo;
@@ -182,6 +237,18 @@
         line-height: 36px;
         margin: 18px 0;
       }
+
+      .receive{
+        a{
+          font-size: 12px;
+          float: right;
+          &:hover{
+            color: #4cb9fc;
+            text-decoration: underline;
+          }
+        }
+      }
+
 
       .address {
         padding-left: 20px;

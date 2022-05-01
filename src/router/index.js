@@ -76,11 +76,13 @@ router.beforeEach(async (to,from,next) => {
             }
         }
     }else{
-        if(to.path.indexOf("/trade") ==0 || to.path.startsWith("/pay") || to.path.startsWith("/center")){
-            next("/login?redirect="+to.path);
-        }else{
-            next();
-        }
+        next();
+        //先关闭
+        // if(to.path.indexOf("/trade") ==0 || to.path.startsWith("/pay") || to.path.startsWith("/center")){
+        //     next("/login?redirect="+to.path);
+        // }else{
+        //     next();
+        // }
     }
 });
 export default router;
