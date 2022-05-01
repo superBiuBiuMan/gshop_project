@@ -25,31 +25,32 @@ const actions = {
         let addressInfo = await reqAddressInfo();//获取地址信息
         if(result.code == 200 && addressInfo.code == 200){
             // // 由于服务器关系,获取不到地址,这里传入和视频一样的地址信息
-            let fakeAddress = [
-                {
-                    "id":1,
-                    "userAddress":"地球村008号",
-                    "userId":2,
-                    "provinceId":1,
-                    "consignee":"动感超人",
-                    "phoneNum":"13888888888",
-                    "isDefault":"1",
-                    "regionId":1,
-                    "fullAddress":"地球村008号动感超人堡垒"
-                },
-                {
-                    "id":2,
-                    "userAddress":"地球村009号",
-                    "userId":2,
-                    "provinceId":1,
-                    "consignee":"西瓜超人",
-                    "phoneNum":"13666666666",
-                    "isDefault":"0",
-                    "regionId":1,
-                    "fullAddress":"地球村009号西瓜超人堡垒"
-                }
-            ];
-            result.data.userAddressList = addressInfo.data.length != 0 ? addressInfo.data : fakeAddress
+            // let fakeAddress = [
+            //     {
+            //         "id":1,
+            //         "userAddress":"地球村008号",
+            //         "userId":2,
+            //         "provinceId":1,
+            //         "consignee":"动感超人",
+            //         "phoneNum":"13888888888",
+            //         "isDefault":"1",
+            //         "regionId":1,
+            //         "fullAddress":"地球村008号动感超人堡垒"
+            //     },
+            //     {
+            //         "id":2,
+            //         "userAddress":"地球村009号",
+            //         "userId":2,
+            //         "provinceId":1,
+            //         "consignee":"西瓜超人",
+            //         "phoneNum":"13666666666",
+            //         "isDefault":"0",
+            //         "regionId":1,
+            //         "fullAddress":"地球村009号西瓜超人堡垒"
+            //     }
+            // ];
+            // result.data.userAddressList = addressInfo.data.length != 0 ? addressInfo.data : fakeAddress
+            result.data.userAddressList = addressInfo.data;
             // result.data.userAddressList = addressInfo.data || fakeAddress;空对象空数组也是真啊!
             commit("RECEIVE_TRADEINFO",result.data);
         }else{

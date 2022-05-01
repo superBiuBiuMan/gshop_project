@@ -17,11 +17,17 @@
             <form action="##">
               <div class="input-text clearFix">
                 <span></span>
-                <input type="text" placeholder="邮箱/用户名/手机号" v-model="phone">
+                <!-- <input type="text" placeholder="邮箱/用户名/手机号" v-model="phone"> -->
+                <input type="text" placeholder="手机号" v-model="phone" name="phone"
+                  v-validate="{required: true,regex:/^1\d{10}$/}" :class="{invalid:errors.has('phone')}">
+                <div class="error-msg">{{errors.first("phone")}}</div>
               </div>
               <div class="input-text clearFix">
                 <span class="pwd"></span>
-                <input type="password" placeholder="请输入密码" v-model="password">
+                <!-- <input type="text" placeholder="请输入密码" v-model="password"> -->
+                <input type="password" autocomplete placeholder="请输入密码" v-model="password"
+                 name="密码" v-validate="{required:true,min:6}" :class="{invalid:errors.has('密码')}">
+                 <div class="error-msg">{{errors.first("密码")}}</div>
               </div>
               <div class="setting clearFix">
                 <label class="checkbox inline">
@@ -95,6 +101,11 @@
     methods:{
       // 登录
       async login(){
+        let success = await this.$validator.validateAll();
+        if(!success){
+          //未通过表单验证
+          return;
+        }
         let { phone,password,isKeepSecret} = this;
         if(phone && password){
           //发送请求
@@ -173,7 +184,9 @@
           border: 1px solid #ddd;
           border-top: none;
           padding: 18px;
-
+          .error-msg{
+            color: red;
+          }
           form {
             margin: 15px 0 18px 0;
             font-size: 12px;

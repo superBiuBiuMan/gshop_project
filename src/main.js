@@ -20,6 +20,9 @@ import "@/mock/mockServe.js";
 import "@/plugins/elementui.js";
 //图片懒加载
 import VueLazyload from "vue-lazyload";
+//表单验证
+import "@/plugins/validate";
+
 Vue.use(VueLazyload);
 //图片懒加载过渡图片
 const loadimage = require('@/assets/image/loading.gif')
