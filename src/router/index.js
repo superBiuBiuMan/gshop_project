@@ -3,6 +3,7 @@ import VueRouter from "vue-router"
 //引入路由文件
 import routes from "./routes.js"
 import store from "@/store"
+import {Message} from "element-ui";
 Vue.use(VueRouter);
 
 const originalPush = VueRouter.prototype.push
@@ -68,7 +69,8 @@ router.beforeEach(async (to,from,next) => {
                     next();
                 } catch (error) {
                     //代表登录过期或者其他错误
-                    alert(error.message);
+                    Message.warning("登录过期!请重新登录!");
+                    // alert(error.message);
                     store.dispatch("restUserInfo");//清空token数据
                     // store.dispatch("setLoginOut");
                     next("/login?redirect="+to.path);

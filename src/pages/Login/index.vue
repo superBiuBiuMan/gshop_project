@@ -112,11 +112,13 @@
           try {
             //不管有没有勾选,都设置为了存储,
             await this.$store.dispatch("login",{phone,password,isKeepSecret});
-            alert("登录成功!");
+            // alert("登录成功!");
+            this.$message.success("登录成功!");
             let redirect = this.$route.query.redirect || "/";
             this.$router.push(redirect);
           } catch (error) {
-            alert(error);
+             this.$message.error(error);
+            // alert(error);
             // console.log(error);
           }
         } 

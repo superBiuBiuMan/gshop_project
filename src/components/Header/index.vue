@@ -80,11 +80,13 @@ export default {
     async loginOut(){
       try {
         await this.$store.dispatch("setLoginOut");
-        alert("退出登录成功!");
+        // alert("退出登录成功!");
+        this.$message.success("退出登录成功!");
         //回到主页
         this.$router.push("/");
       } catch (error) {
-        alert("退出失败!" + error);
+        this.$message.error("退出失败!"+error);
+        // alert("退出失败!" + error);
       }
     },
     /* 清空搜索框 */
@@ -111,7 +113,8 @@ export default {
         //清空输入内容
         this.searchKeyWord="";
       } else {
-        alert("请输入完整的内容!");
+        this.$message.warning("请输入完整的内容!");
+        // alert("请输入完整的内容!");
       }
     },
   },

@@ -185,7 +185,8 @@ export default {
         this.records = result.data.records;
         this.total = result.data.total;
       }else{
-        alert(result.message);
+        this.$message.warning(result.message);
+        // alert(result.message);
         this.$router.push("/login");
       }
     }

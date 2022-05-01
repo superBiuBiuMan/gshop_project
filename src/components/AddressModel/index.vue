@@ -96,9 +96,11 @@ export default {
               }
               let result = await this.$API.reqUpdateUserAddress(sendInfo);
               if(result.code == 200){
-                  alert("修改地址信息成功!");
+                //alert("修改地址信息成功!");
+                this.$message.success("修改地址信息成功!");
               }else{
                   console.log("失败"+result.data);
+                  
               }
           }else{
             console.log("添加地址");
@@ -115,12 +117,14 @@ export default {
                 //完整输入
                 let result = await this.$API.reqSaveUserAddress(this.addressInfo);
                 if(result.code == 200){
-                    alert("添加地址信息成功!");
+                    // alert("添加地址信息成功!");
+                    this.$message.success("添加地址信息成功!");
                 }else{
                     console.log("失败",result.message);
                 }
             }catch(error){
-                alert("请填写完整的值!");
+                this.$message.warning("请填写完整的值!")
+                //alert("请填写完整的值!");
                 return
             }
           }
@@ -137,7 +141,8 @@ export default {
           if(result.code == 200){
               this.provinces = result.data;
           }else{
-             alert("获取地址省份信息失败,",result.message)
+            //  alert("获取地址省份信息失败,",result.message)
+            this.$message.error("获取地址省份信息失败");
           }
       },
       //获取区域地址
@@ -146,7 +151,8 @@ export default {
           if(result.code == 200){
               this.regions = result.data;
           }else{
-              alert("获取地址区域信息失败,",result.message)
+              this.$message.error("获取地址区域信息失败!"+result.message);
+            //   alert("获取地址区域信息失败,",result.message)
           }
       }
   },

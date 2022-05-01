@@ -190,12 +190,14 @@
           let result = await this.$API.reqOrderInfo(tradeNo,infoObj);
           if(result.code == 200){
             //提交订单成功
-            alert("提交订单成功!");
+            this.$message.success("提交订单成功!");
+            // alert("提交订单成功!");
             //跳转,附带orderId 订单号
             this.$router.push("/pay?orderNo="+result.data);
           }else{
             //不能重复提交订单 status依旧为201!!!
-            alert(result.message);
+            this.$message.warning(result.message);
+            // alert(result.message);
           }
         } catch (error) {
           //提交订单失败

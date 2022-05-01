@@ -101,8 +101,6 @@ export const reqMyOrderInfo = (page,limit) => {
     return axios.get(`/order/auth/${page}/${limit}`);
 }
 
-
-//------------------------------------------测试区------------------------
 // 获取地址大区列表
 // api/user/userAddress/auth/findBaseRegion GET
 export const reqAddressBaseRegion = () => {

@@ -89,7 +89,8 @@ export default {
         await this.$store.dispatch("setDeleteCartAll");
         this.getShopCartList();
       } catch (error) {
-         alert("删除失败",error.message);
+        this.$message.error(error.message);
+        //  alert("删除失败",error.message);
       }
     },
     // 删除单个购物车
@@ -100,7 +101,8 @@ export default {
         //重新获取数据
         this.getShopCartList();
       } catch (error) {
-        alert("删除失败",error.message);
+        this.$message.error("删除失败"+error.message);
+        // alert("删除失败",error.message);
       }
     },
     // 切换购物车选中状态
@@ -114,7 +116,8 @@ export default {
         //重新获取数据
         this.getShopCartList();
       } catch (error) {
-        alert("修改状态发生错误!",error.message);
+        this.$message.error("修改状态发生错误!"+error.message)
+        // alert("修改状态发生错误!",error.message);
       }
       
     },
@@ -144,7 +147,8 @@ export default {
       try {
         await this.$store.dispatch("getAddOrUpdateCart",{skuId:shopCart.skuId,skuNum:changeNumber});
       } catch (error) {
-        alert("修改购物车数量失败!",error.message);
+        this.$message.error("修改购物车数量失败!"+error.message)
+        // alert("修改购物车数量失败!",error.message);
       }
       //重新获取数据
       this.getShopCartList();
@@ -182,7 +186,8 @@ export default {
           //更新所有状态
           this.getShopCartList();
         }catch(error){
-          alert("修改全部选中失败",error.message);
+          this.$message.error("修改全部选中失败"+error.message);
+          // alert("修改全部选中失败",error.message);
         }
         //为什么单击选择框不会调用这个
         // console.log(newValue);

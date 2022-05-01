@@ -144,7 +144,8 @@
                 code,
                 password
               });
-              alert("注册成功!");
+              this.$message.success("注册成功!");
+              // alert("注册成功!");
               //跳转到登录界面
               this.$router.push("/login");
               // this.phone="";
@@ -153,7 +154,8 @@
               // this.password2="";
           } catch (error) {
             //注册失败提示
-            alert(error.message);
+            this.$message.error(error.message);
+            // alert(error.message);
           }
         }else{
           alert("请输入完整的信息!或者检查是否已经勾选协议条款!");

@@ -17,9 +17,8 @@ const Pay = () => import("@/pages/Pay")
 const PaySuccess = () => import("@/pages/PaySuccess")
 const MyOrder = () => import("@/pages/Center/MyOrder")
 const OrderGroup = () => import("@/pages/Center/OrderGroup")
-
-//测试使用
 const AddressModel = () => import("@/components/AddressModel")
+import {Message} from "element-ui"
 // import Login from "@/pages/Login"
 // import Register from "@/pages/Register"
 // import Search from "@/pages/Search"
@@ -72,7 +71,8 @@ export default [
             if(from.path === '/trade'){
                 next();
             }else{
-                alert("只有从交易页面(创建订单)页面才能跳转到支付页面");
+                Message.error("只有从交易页面(创建订单)页面才能跳转到支付页面");
+                // alert("只有从交易页面(创建订单)页面才能跳转到支付页面");
                 next("/");
             }
         }
@@ -87,7 +87,8 @@ export default [
             if(from.path === '/pay'){
                 next();
             }else{
-                alert("只有从支付页面才能跳转到支付成功页面");
+                Message.error("只有从支付页面才能跳转到支付成功页面")
+                // alert("只有从支付页面才能跳转到支付成功页面");
                 next("/");
             }
         }
@@ -102,7 +103,8 @@ export default [
             if(from.path === '/shopcart'){
                 next();
             }else{
-                alert("只有从购物车界面才能跳转到交易页面")
+                Message.error("只有从购物车界面才能跳转到交易页面")
+                // alert("只有从购物车界面才能跳转到交易页面")
                 next("/");
             }
         }
@@ -127,7 +129,8 @@ export default [
                 //均存在值
                 next();//放行
             }else{
-                alert("只有携带了skuNum和sessionStorage内部有skulnfo数据才能看到添加购物车成功的界面");
+                Message.error("只有携带了skuNum和sessionStorage内部有skulnfo数据才能看到添加购物车成功的界面")
+                // alert("只有携带了skuNum和sessionStorage内部有skulnfo数据才能看到添加购物车成功的界面");
                 next("/");
             }
         }

@@ -4,6 +4,7 @@ import {
     setItem,
     removeItem,
 } from "@/utils/userabout";
+import {Message} from "element-ui"
 import {
     reqRegister,
     reqCode,
@@ -78,9 +79,14 @@ const actions = {
     async sendCode({commit},phone){
         let result = await reqCode(phone);
         if(result.code == 200){
+            Message.warning({
+                message:"您的验证码是:"+result.data,
+                duration:7000
+            })
             console.log("您的验证码是:"+result.data);
         }else{
-            alert("获取验证码失败!");
+            Message.error("获取验证码失败!");
+            // alert("获取验证码失败!");
         }
     },
     // 提交注册信息

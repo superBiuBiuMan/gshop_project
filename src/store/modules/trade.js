@@ -2,6 +2,7 @@ import {
     reqTradeInfo,
     reqAddressInfo,
 } from "@/api"
+import {Message} from "element-ui"
 const state = {
     tradeInfo:{},
     changAddress:{}
@@ -54,7 +55,8 @@ const actions = {
             // result.data.userAddressList = addressInfo.data || fakeAddress;空对象空数组也是真啊!
             commit("RECEIVE_TRADEINFO",result.data);
         }else{
-            alert(result.message);
+            Message.error(result.message)
+            // alert(result.message);
         }
     }
 }

@@ -376,7 +376,12 @@ import { mapGetters } from 'vuex'
         try{
           let result = await this.$store.dispatch("getAddOrUpdateCart",{skuId:this.skuId,skuNum:this.skuNum});
           if(result=="OK"){
-            alert("添加购物车成功,开始跳转...");
+            // this.$message.success("添加购物车成功,开始跳转...");
+            this.$message.success({
+              message:"添加购物车成功",
+              duration:1000
+            })
+            // alert("添加购物车成功,开始跳转...");
             //跳转
             this.$router.push({
               name:"addcartsuccess",
@@ -388,7 +393,8 @@ import { mapGetters } from 'vuex'
             sessionStorage.setItem("SKUINFO_KEY",JSON.stringify(this.skuInfo));
           }
         }catch(error){
-          alert("添加购物车失败",error.message);
+          this.$message.error("添加购物车失败"+error.message);
+          // alert("添加购物车失败",error.message);
         }
       },
       //使用排他思想

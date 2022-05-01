@@ -1,7 +1,8 @@
 /* 对axios二次封装 */
-import axios from "axios"
+import axios from "axios";
 import NProgress from "nprogress";
-import store from "@/store"
+import {Message} from "element-ui";
+import store from "@/store";
 // 脚手架帮我们配置好了才可以引入css的
 // import "nprogress/nprogress.css";
 import "nprogress/nprogress.css"
@@ -40,7 +41,8 @@ service.interceptors.response.use(
         /* 隐藏请求进度条 */
         NProgress.done();
         //统一提示
-        alert(error.message||"未知错误");
+        // alert(error.message||"未知错误");
+        Message.error(error.message||"未知错误");
         //或者 throw error
         return Promise.reject(error);//带到下面去处理
         // return new Promise(()=>{});//不处理错误

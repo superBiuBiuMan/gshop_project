@@ -149,7 +149,7 @@
                 // }
               }else if (action == 'cancel'){
                 this.$message({
-                  message:"请联系尚硅谷小姐姐解决",
+                  message:"请联系尚硅谷小姐姐解决~",
                   type:"warning"
                 });
               }
@@ -182,7 +182,8 @@
           //支付成功
           this.orderInfo = result.data;
         }else{
-          alert(result.message);
+          this.$message.error(result.message);
+          // alert(result.message);
         }
       }
     },
