@@ -1,25 +1,47 @@
-# vue_project 
-# 尚品汇练习
+## 尚品汇前台练习
 
-## Project setup
+* 在线演示1: http://106.13.220.33:8081/
+* 在线演示2: http://106.13.220.33:8083/
+
+### 自己下了下添加收获地址和删除收货地址(样式没有过多去处理~)
+
+![](https://dreamos.oss-cn-beijing.aliyuncs.com/gitblog/20220503142230.png)
+
+### 有时候主页的一些数据老是获取不到,用了假数据(但是数据内容和接口地址是一样的)
+
+![](https://dreamos.oss-cn-beijing.aliyuncs.com/gitblog/20220503142423.png)
+
+### 添加地址
+
+![](https://dreamos.oss-cn-beijing.aliyuncs.com/gitblog/20220503142718.png)
+
+### 信息弹窗全部改为element-ui的message提示
+
+![](https://dreamos.oss-cn-beijing.aliyuncs.com/gitblog/20220503142801.png)
+
+![](https://dreamos.oss-cn-beijing.aliyuncs.com/gitblog/20220503142829.png)
+
+![](https://dreamos.oss-cn-beijing.aliyuncs.com/gitblog/20220503142855.png)
+
+### 项目依赖安装
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 项目运行
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 项目打包编译
 ```
 npm run build
 ```
 
-### Lints and fixes files
+### 地址
+
 ```
-npm run lint
+https://gitee.com/superBiuBiu/gshop_project
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
