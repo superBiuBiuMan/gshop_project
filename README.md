@@ -40,7 +40,11 @@ npm run build
 ```
 
 ### 地址
-
+#### 国外
+```
+https://github.com/superBiuBiuMan/gshop_project
+```
+#### 国内
 ```
 https://gitee.com/superBiuBiu/gshop_project
 ```
