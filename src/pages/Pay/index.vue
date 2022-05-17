@@ -156,7 +156,7 @@
             },
           });
           //开始轮询
-          while(!this.timer){
+          if(!this.timer){
             this.timer = setInterval(async () => {
                 let result = await this.$API.queryPayStatus(this.orderNo)
                 if(result.code == 200){
