@@ -1,7 +1,7 @@
 <template>
   <div class="register-container">
     <!-- 注册内容 -->
-    
+    <form @submit.prevent>
     <div class="register">
       <h3>注册新用户
         <span class="go">我有账号，去 <router-link to="/login">登录</router-link>
@@ -21,10 +21,9 @@
         <!-- <input type="text" placeholder="请输入你的手机号" v-model="phone"> -->
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
+      <!-- 验证码 -->
       <div class="content">
         <label>验证码:</label>
-        <!-- <input type="text" placeholder="请输入验证码" v-model="code">
-        <span class="error-msg">错误提示信息</span> -->
         <input 
            type="text"
            placeholder="请输入验证码"
@@ -34,51 +33,38 @@
            :class="{ invalid: errors.has('code') }"
         />
         <span class="error-msg">{{errors.first("code")}}</span>
-        <button @click="sendCode" class="codeStyle">获取验证码</button>
-        
+        <button @click="sendCode" class="codeStyle" ref="code">获取验证码</button>
       </div>
+      <!-- 登录密码 -->
       <div class="content">
         <label>登录密码:</label>
-        <!-- <input type="text" placeholder="请输入你的登录密码" v-model="password1">
-        <span class="error-msg">错误提示信息</span> -->
-        <input 
-           type="text"
-           placeholder="请输入你的登录密码"
-           v-model="password"
-           name="password"
-           v-validate="{ required: true, regex: /^\w{6,20}$/ }"
-           :class="{ invalid: errors.has('password') }"
-        />
+          <input 
+            type="password"
+            placeholder="请输入你的登录密码"
+            v-model="password"
+            name="password"
+            autocomplete="off"
+            v-validate="{ required: true, regex: /^\w{6,20}$/ }"
+            :class="{ invalid: errors.has('password') }"
+          />
         <span class="error-msg">{{errors.first("password")}}</span>
-
       </div>
+      <!-- 确认密码 -->
       <div class="content">
         <label>确认密码:</label>
-        <!-- <input type="text" placeholder="请输入确认密码" v-model="password2">
-        <span class="error-msg">错误提示信息</span> -->
-        <input 
-           type="text"
-           placeholder="请输入确认密码"
-           v-model="password2"
-           name="password2"
-           v-validate="{ required: true, is: password }"
-           :class="{ invalid: errors.has('password2') }"
-        />
+          <input 
+            type="password"
+            placeholder="请输入确认密码"
+            v-model="password2"
+            name="password2"
+            autocomplete="off"
+            v-validate="{ required: true, is: password }"
+            :class="{ invalid: errors.has('password2') }"
+          />
         <span class="error-msg">{{errors.first("password2")}}</span>
       </div>
+      <!-- 协议 -->
       <div class="controls">
-        <!-- <input name="m1" type="checkbox" v-model="isSelected"> -->
-        <!-- <span class="error-msg">错误提示信息</span> -->
-
-        <!-- <input 
-           type="checkbox"
-           placeholder="请输入验证码"
-           v-model="isSelected"
-           name="isCheckRead"
-           v-validate="{ required: true, 'agree':true }"
-           :class="{ invalid: errors.has('isCheckRead') }"
-        /> -->
-        <!-- <span class="error-msg">{{errors.first("isCheckRead")}}</span> -->
         <input type="checkbox" v-model="isSelected" name="协议" v-validate="'agree'"/>
         <span>同意协议并注册《尚品汇用户协议》</span>
         <span class="error-msg">{{errors.first("协议")}}</span>
@@ -88,7 +74,7 @@
         <button @click.prevent="register">完成注册</button>
       </div>
     </div>
-    
+    </form>
     <!-- 底部 -->
     <div class="copyright">
       <ul>
@@ -118,14 +104,37 @@
         password:"",
         password2:"",
         isSelected:true,
+        //定时器的
+        timer:"",
       }
     },
+    beforeDestroy(){
+      // 清空定时器
+      clearInterval(this.timer);
+    },  
     methods:{
       // 发送验证码
       sendCode(){
         let { phone } = this;
         if(phone){
           this.$store.dispatch("sendCode",phone);
+          //按钮禁用
+          this.$refs.code.disabled = true;
+          let time = 60;
+          // 计时器等待
+          this.timer = setInterval(() => {
+              if(time === 0){
+                //清除定时器
+                clearInterval(this.timer);
+                this.timer = null;
+                //开启按钮
+                this.$refs.code.disabled = false;
+                this.$refs.code.textContent = "获取验证码";
+              }else{
+                this.$refs.code.textContent=`验证码已发送${time}`;
+                time--;
+              }
+          }, 1000);
         }
       },
       // 单击注册按钮
@@ -144,21 +153,30 @@
                 code,
                 password
               });
-              this.$message.success("注册成功!");
-              // alert("注册成功!");
+              this.$message.success("注册成功!,自动登录中...");
+              this.login(phone,password);
               //跳转到登录界面
-              this.$router.push("/login");
-              // this.phone="";
-              // this.code="";
-              // this.password="";
-              // this.password2="";
+              // this.$router.push("/login");
           } catch (error) {
             //注册失败提示
             this.$message.error(error.message);
-            // alert(error.message);
           }
         }else{
-          alert("请输入完整的信息!或者检查是否已经勾选协议条款!");
+          // alert("请输入完整的信息!或者检查是否已经勾选协议条款!");
+          this.$message.warning("请输入完整的信息!或者检查是否已经勾选协议条款!");
+        }
+      },
+      //登录
+      async login(phone,password){
+        //发送请求
+        try {
+          await this.$store.dispatch("login",{phone,password,isKeepSecret:false});
+          //如果之前有跳转,则跳转到之前页面,否者跳转到主页
+          // let redirect = this.$route.query.redirect || "/";
+          let redirect = "/";
+          this.$router.push(redirect);
+        } catch (error) {
+          this.$message.error(error);
         }
       }
     }

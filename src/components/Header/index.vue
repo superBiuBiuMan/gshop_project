@@ -9,7 +9,7 @@
           <p v-if="$store.state.user.userInfo.name">
             <!-- <a href="###">登录</a> -->
             <a href="javascript:;">{{$store.state.user.userInfo.name}}</a>
-            <a href="javascript:;" @click="loginOut">退出登录</a>
+            <a href="javascript:;" @click="loginOut" style="margin-left:10px">退出登录</a>
           </p>
           <!-- 未登录 -->
           <p v-else>
@@ -80,13 +80,11 @@ export default {
     async loginOut(){
       try {
         await this.$store.dispatch("setLoginOut");
-        // alert("退出登录成功!");
         this.$message.success("退出登录成功!");
         //回到主页
         this.$router.push("/");
       } catch (error) {
         this.$message.error("退出失败!"+error);
-        // alert("退出失败!" + error);
       }
     },
     /* 清空搜索框 */
@@ -114,7 +112,6 @@ export default {
         this.searchKeyWord="";
       } else {
         this.$message.warning("请输入完整的内容!");
-        // alert("请输入完整的内容!");
       }
     },
   },

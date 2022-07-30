@@ -78,10 +78,13 @@
       return {
         phone:"",
         password:"",
-        // 是否记住密码 
+        // 是否保存信息
         isKeepSecret:false
-        // isSelected:true,
       }
+    },
+    mounted(){
+      // 初始化登录信息
+      this.initInfo();
     },
     // beforeRouterEnter(to,from,next){
     //   // 在渲染该组件的对应路由被验证前调用
@@ -114,14 +117,41 @@
             await this.$store.dispatch("login",{phone,password,isKeepSecret});
             // alert("登录成功!");
             this.$message.success("登录成功!");
+            //如果之前有跳转,则跳转到之前页面,否者跳转到主页
             let redirect = this.$route.query.redirect || "/";
             this.$router.push(redirect);
           } catch (error) {
              this.$message.error(error);
-            // alert(error);
-            // console.log(error);
           }
         } 
+      },
+      // 初始化信息
+      async initInfo(){
+        let result = JSON.parse(sessionStorage.getItem("AUTOLOGIN"));
+        if(result){
+          const loading = this.$loading({
+            lock: true,
+            text: '自动登录中...',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.3)'
+          });
+          //结构
+          let {phone,password} = result;
+          //发送请求
+          try {
+            //不管有没有勾选,都设置为了存储,
+            await this.$store.dispatch("login",{phone,password});
+            // alert("登录成功!");
+            this.$message.success("登录成功!");
+            //如果之前有跳转,则跳转到之前页面,否者跳转到主页
+            let redirect = this.$route.query.redirect || "/";
+            this.$router.push(redirect);
+          } catch (error) {
+             this.$message.error(error);
+          }
+          //关闭遮罩
+          loading.close();
+        }
       }
     }
   }
@@ -233,6 +263,10 @@
             .setting {
               label {
                 float: left;
+                vertical-align: middle;
+                input{
+                  vertical-align: middle
+                }
               }
 
               .forget {

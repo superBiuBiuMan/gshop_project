@@ -7,21 +7,32 @@
         收件人信息
         <a href="javascript:;" @click="addAddress">新增收货地址</a>
       </h5>
-      <div class="address clearFix" v-for="(userAddress,index) in userAddressList" :key="userAddress.id">
-        <!-- <span class="username selected">{{userAddress.consignee}}</span> -->
-        <span class="username" :class="{selected:userAddress.isDefault == 1}">{{userAddress.consignee}}</span>
-        <p @click="changeDefault(userAddress,userAddressList)">
-          <span class="s1">{{userAddress.userAddress}}</span>
-          <span class="s2">{{userAddress.phoneNum}}</span>
-          <span class="s3" v-if="userAddress.isDefault == 1">默认地址</span>
-        </p>
-        <span class="place" style="float: right;">
-          <!-- 通过index可以获取到userAddress.id  -->
-          <a href="javascript:;" style="margin-left: 150px;" @click="updateUserAddress(index)">修改</a>
-          <a href="javascript:;" @click="removeUserAddress(userAddress.id)">删除</a>
-        </span>
-      </div>
-      
+      <!-- 用户地址信息展示 -->
+      <template v-if="userAddressList.length!=0">
+        <!-- 存在地址 -->
+        <div class="address clearFix" v-for="(userAddress,index) in userAddressList" :key="userAddress.id">
+          <span class="username" :class="{selected:userAddress.isDefault == 1}">{{userAddress.consignee}}</span>
+          <p @click="changeDefault(userAddress,userAddressList)">
+            <span class="s1">{{userAddress.userAddress}}</span>
+            <span class="s2">{{userAddress.phoneNum}}</span>
+            <span class="s3" v-if="userAddress.isDefault == 1">默认地址</span>
+          </p>
+          <!-- 地址操作区 -->
+          <span class="place" style="float: right;">
+            <!-- 通过index可以获取到userAddress.id  -->
+            <a href="javascript:;" style="margin-left: 150px; margin-right: 7px;" @click="updateUserAddress(index)">修改</a>
+            <el-popconfirm title="确定删除该地址吗?" @confirm="removeUserAddress(userAddress.id)">
+              <a href="javascript:;" slot="reference" >删除</a>
+            </el-popconfirm>
+          </span>
+        </div>
+      </template>
+        <!-- 不存在地址的时候 -->
+      <template v-else>
+        <div class="no-address">
+          <a href="javascript:;" @click="addAddress" >找不到您的地址信息,赶快去添加地址信息吧~</a>
+        </div>
+      </template>
       <div class="line"></div>
       <h5 class="pay">支付方式</h5>
       <div class="address clearFix">
@@ -89,25 +100,28 @@
     </div>
     <div class="trade">
       <div class="price">应付金额:　<span>¥{{tradeInfo.totalAmount}}</span></div>
-      <div class="receiveInfo">
+      <!-- Object.keys(this.defaultUserAddress).length === 0 -->
+      <div class="receiveInfo" v-if="Object.keys(this.defaultUserAddress).length !== 0">
         寄送至:
         <span>{{defaultUserAddress.userAddress}}</span>
         收货人：<span>{{defaultUserAddress.consignee}}</span>
         <span>{{defaultUserAddress.phoneNum}}</span>
       </div>
+      <div class="receiveInfo" v-else>
+        未选择收获地址信息
+      </div>
     </div>
     <div class="sub clearFix">
-      <!-- <router-link class="subBtn" to="/pay">提交订单</router-link> -->
       <a class="subBtn" @click="orderShop">提交订单</a>
     </div>
   </div>
-        <!-- 地址信息  -->
-        <AddressInfoModel v-model="controlAddressShow" @cancelAddress="clickCancel" @confirmAddress="clickConfirm"/>
+  <!-- 地址编辑  -->
+   <AddressInfoModel :controlAddressShow.sync="controlAddressShow" @confirmAddress="clickConfirm"/>
   </div>
 </template>
 
 <script>
-  import AddressInfoModel from "@/components/AddressModel"
+  import AddressInfoModel from "@/pages/AddressModel";
   import {mapGetters, mapState} from "vuex"
   export default {
     name: 'Trade',
@@ -136,16 +150,17 @@
     methods:{
       // 删除地址
       async removeUserAddress(id){
-          if(confirm("是否要删除?")){
-            let result = await this.$API.reqRemoveUserAddress(id);
-            if(result.code == 200){
-              //删除地址成功
-              //刷新界面 后面愿意优化的话可以把获取地址信息和商品信息分离开
-              this.sendTradeInfo();
-            }else{
-              console.log(result.message||"修改地址失败!");
-            }
-          }
+        // 数据库移除
+        let result = await this.$API.reqRemoveUserAddress(id);
+        if(result.code == 200){
+          //删除地址成功
+          this.$message.success("删除地址成功!");
+          //刷新界面 后面愿意优化的话可以把获取地址信息和商品信息分离开
+          this.sendTradeInfo();
+        }else{
+          this.$message.error(result.message);
+          console.log(result.message,"删除地址失败!");
+        }
       },
       // 修改地址
       updateUserAddress(index){
@@ -154,16 +169,12 @@
         let addInfo = this.userAddressList[index];
         console.log("输出根据索引找到的地址信息",addInfo);
         this.$store.state.trade.changAddress = addInfo;
+        //显示弹窗
         this.controlAddressShow = true;
-        //传递给地址信息模块
-        // this.$bus.$on("addClickEvent")
-      },
-      // 地址弹出框用户单击取消
-      clickCancel(){
-        this.controlAddressShow=false;
       },
       // 地址弹出框用户单击确定
       clickConfirm(){
+        //隐藏弹窗
         this.controlAddressShow=false;
         //刷新界面 后面愿意优化的话可以把获取地址信息和商品信息分离开
         this.sendTradeInfo();
@@ -175,8 +186,18 @@
       },
       // 提交订单
       async orderShop(){
+        // 判断是否已经选了地址
+        if(Object.keys(this.defaultUserAddress).length === 0){
+          //禁止提交数据
+          this.$message({
+              message: '请选择您的地址后再提交订单',
+              type: 'warning'
+          });
+          return;
+        }
         let {tradeNo} = this.tradeInfo;
         let {consignee,phoneNum,userAddress} = this.defaultUserAddress;
+        // 提交订单信息
         let infoObj = {
           consignee:consignee,
           consigneeTel:phoneNum,
@@ -191,24 +212,24 @@
           if(result.code == 200){
             //提交订单成功
             this.$message.success("提交订单成功!");
-            // alert("提交订单成功!");
             //跳转,附带orderId 订单号
             this.$router.push("/pay?orderNo="+result.data);
           }else{
             //不能重复提交订单 status依旧为201!!!
             this.$message.warning(result.message);
-            // alert(result.message);
           }
         } catch (error) {
           //提交订单失败
+          this.$message.warning(error);
+          console.log(error);
         }
         
       },
       // 改变默认地址
       changeDefault(userAddress,userAddressList){
-         //传入引用数据类型,然后
-         userAddressList.forEach(item => item.isDefault = '0');
-         userAddress.isDefault = '1';
+        //传入引用数据类型,然后
+        userAddressList.forEach(item => item.isDefault = '0');//其他设置为未选中
+        userAddress.isDefault = '1';//设置为默认地址
       },
       //获取信息
       sendTradeInfo(){
@@ -226,7 +247,14 @@
       font-size: 14px;
       line-height: 21px;
     }
-
+    //没有地址时候的css
+    .no-address{
+      text-align: center;
+      margin: 15px 0;
+      a{
+        font-size: 16px;
+      }
+    }
     .content {
       width: 1200px;
       margin: 10px auto 0;

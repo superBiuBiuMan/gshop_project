@@ -3,7 +3,6 @@
     <!-- 导航栏 -->
     <Nav></Nav>
     <!-- <h1>用户搜索的值:{{this.$route.path}}</h1> -->
-
     <!--list-content-->
     <div class="main">
       <div class="py-container">
@@ -32,16 +31,6 @@
               {{ el }}
               <i @click="removeProps(index)">×</i>
             </li>
-
-            <!-- <li class="with-x" v-if="this.options.category1Id">
-              {{this.options.category1Id}}
-              <i>×</i>
-              <li class="with-x" v-if="this.options.category2Id">
-              {{this.options.category2Id}}
-              <i>×</i>
-              <li class="with-x" v-if="this.options.category3Id">
-              {{this.options.category3Id}}
-              <i>×</i> -->
           </ul>
         </div>
         <!--selector-->
@@ -107,18 +96,14 @@
               </ul>
             </div>
           </div>
+          <!-- 搜索商品的展示 -->
           <div class="goods-list">
-            事件委派方式添加进购物车
-
-            <ul class="yui3-g">
-              <li class="yui3-u-1-5" v-for="item in goodsList" :key="item.id">
+            <!-- 事件委派方式添加进购物车 -->
+            <ul class="yui3-g" @click="addCart($event)">
+              <li class="yui3-u-1-5" v-for="item in goodsList" :key="item.id" :data-id="item.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <!-- <a>
-                      <img :src="item.defaultImg" />
-                    </a> -->
                     <router-link :to="'/detail/'+item.id">
-                      <!-- <img :src="item.defaultImg" /> -->
                       <!-- 懒加载模式 -->
                       <img v-lazy="item.defaultImg" />
                     </router-link>
@@ -130,18 +115,16 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <!-- <a>
-                      {{ item.title }}
-                    </a> -->
                     <router-link :to="'/detail/'+item.id">{{item.title}}</router-link>
                   </div>
                   <div class="commit">
-                    <i class="command">已有<span>2000</span>人评价</i>
+                    <i class="command">已有<span>{{getRandomIntInclusive(587,2540)}}</span>人评价</i>
                   </div>
                   <div class="operate">
                     <a
                       href="javascript:;"
                       class="sui-btn btn-bordered btn-danger"
+                      data-add="1"
                       >加入购物车</a
                     >
                     <a href="javascript:void(0);" class="sui-btn btn-bordered"
@@ -291,41 +274,84 @@ export default {
       immediate: true,
     },
   },
-  // created() {
-  //   this.updateParams();
-  //   this.getShopList();
-  // },
   methods: {
     //添加到购物车
-    //   async addCart(event){
-    //   let skuId = event.target.dataset.skunum;
-    //   if(!skuId){
-    //     return;
-    //   }
-    //   //由于是async所以返回的是promise
-    //   try{
-    //     let result = await this.$store.dispatch("getAddOrUpdateCart",{skuId,skuNum:1});
-    //     if(result=="OK"){
-    //       alert("添加购物车成功,开始跳转...");
-    //       //跳转
-    //       this.$router.push({
-    //         name:"addcartsuccess",
-    //         query:{
-    //           skuNum:this.skuNum
-    //         }
-    //       });
-    //       //复杂数据存入sessionStorage
-    //       sessionStorage.setItem("SKUINFO_KEY",JSON.stringify(this.skuInfo));
-    //     }
-    //   }catch(error){
-    //     alert("添加购物车失败",error.message);
-    //   }
-    // },
+      async addCart(event){
+      //不为加入购物车按钮
+      if(!!!event.target.dataset.add){
+        return;
+      }
+      //加入购物车操作
+      let nodeLi = event.target.parentElement?.parentElement?.parentElement;
+      if(nodeLi){
+        //存在值才操作
+        let skuId = nodeLi.dataset.id;//获取商品id
+        let skuNum = 1;//商品数量默认为1
+        let skuName = nodeLi.querySelector(".attr>a")?.textContent;//商品的名字
+        let skuDefaultImg = nodeLi.querySelector(".p-img img")?.src;
+         //由于是async所以返回的是promise
+          try{
+            let result = await this.$store.dispatch("getAddOrUpdateCart",{skuId,skuNum});
+            if(result=="OK"){
+              this.$message.success({
+                message:"添加购物车成功",
+                duration:1000
+              })
+              //跳转
+              this.$router.push({
+                name:"addcartsuccess",
+                query:{
+                  skuNum,
+                }
+              });
+              //复杂数据(商品信息)存入sessionStorage - 便于添加购物车成功页面读取
+              sessionStorage.setItem("SKUINFO_KEY",JSON.stringify({
+                skuDefaultImg,
+                skuName,
+                id:skuId,
+              }));
+            }
+          }catch(error){
+            this.$message.error("添加购物车失败"+error.message);
+          }
+      }
+      // let skuNum = 1//商品数量
+      // let skuId = event.target.dataset.id;//商品id
+      // console.log(event.target);
+      // console.log(skuId);
+      // if(!skuId){
+      //   return;
+      // }
+      //由于是async所以返回的是promise
+      // try{
+      //   let result = await this.$store.dispatch("getAddOrUpdateCart",{skuId,skuNum:1});
+      //   if(result=="OK"){
+      //     alert("添加购物车成功,开始跳转...");
+      //     //跳转
+      //     this.$router.push({
+      //       name:"addcartsuccess",
+      //       query:{
+      //         skuNum:this.skuNum
+      //       }
+      //     });
+      //     //复杂数据存入sessionStorage
+      //     sessionStorage.setItem("SKUINFO_KEY",JSON.stringify(this.skuInfo));
+      //   }
+      // }catch(error){
+      //   alert("添加购物车失败",error.message);
+      // }
+    },
     /* 分页器页码发生变化的回调 */
     // currentChange(newPage){
     //   this.options.pageNo=newPage;
     //   this.getShopList();
     // },
+    /* 随机数生成 取闭区间[x,y]范围内的数 */
+    getRandomIntInclusive(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    },
     /* 排序 flage为1或者2*/
     orderProduct(flagAfter){
       //降序升序切换
@@ -577,7 +603,7 @@ export default {
                 strong {
                   font-weight: 700;
                   i {
-                    margin-left: -5px;
+                    margin-left: 3px;
                   }
                 }
               }
@@ -778,7 +804,7 @@ export default {
                 strong {
                   font-weight: 700;
                   i {
-                    margin-left: -5px;
+                    margin-left: 3px;
                   }
                 }
               }

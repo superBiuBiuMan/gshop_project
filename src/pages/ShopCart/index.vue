@@ -1,78 +1,94 @@
 <template>
-  <div class="cart">
-    <h4>全部商品</h4>
-    <div class="cart-main">
-      <div class="cart-th">
-        <div class="cart-th1">全部</div>
-        <div class="cart-th2">商品</div>
-        <div class="cart-th3">单价（元）</div>
-        <div class="cart-th4">数量</div>
-        <div class="cart-th5">小计（元）</div>
-        <div class="cart-th6">操作</div>
-      </div>
-      <div class="cart-body">
-        <ul class="cart-list" v-for="shopCart in shopCartList" :key="shopCart.id">
-          <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="shopCart.isChecked" @click="setCheckCart(shopCart)"/>
-          </li>
-          <li class="cart-list-con2">
-            <img :src="shopCart.imgUrl" />
-            <div class="item-msg">
-              {{shopCart.skuName}}
-            </div>
-          </li>
-          <li class="cart-list-con4">
-            <!-- 商品价格 -->
-            <span class="price">{{shopCart.skuPrice}}</span>
-          </li>
-          <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins" @click="changeCartNum(shopCart,true,-1)">-</a>
-            <input
-              autocomplete="off"
-              type="text" 
-              :value="shopCart.skuNum"
-              @change="changeCartNum(shopCart,false,$event.target.value*1)"
-              minnum="1"
-              class="itxt"
-            />
-            <a href="javascript:void(0)" class="plus" @click="changeCartNum(shopCart,true,1)">+</a>
-          </li>
-          <li class="cart-list-con6">
-            <!-- 小计 -->
-            <span class="sum">{{shopCart.cartPrice * shopCart.skuNum}}</span>
-          </li>
-          <li class="cart-list-con7">
-            <a href="javascript:;" class="sindelet" @click="deleteOne(shopCart.skuId)">删除</a>
-            <!-- <a href="javascript:;" class="sindelet" >删除</a> -->
-            <br />
-            <a href="#none">移到收藏</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="cart-tool">
-      <div class="select-all">
-        <input class="chooseAll" type="checkbox" v-model="isCheckedAll"/>
-        <span>全选</span>
-      </div>
-      <div class="option">
-        <a href="javascript:;" @click="deleteAll">删除选中的商品</a>
-        <a href="#none">移到我的关注</a>
-        <a href="#none">清除下柜商品</a>
-      </div>
-      <div class="money-box">
-        <div class="chosed">已选择 <span>{{totalAmount}}</span>件商品</div>
-        <div class="sumprice">
-          <em>总价（不含运费） ：</em>
-          <i class="summoney">{{totalAccount}}</i>
+<div class="shopcart-container">
+  <!-- 购物车不为空的时候显示 -->
+  <template v-if="shopCartList.length!==0">
+    <div class="cart">
+      <h4>全部商品</h4>
+      <div class="cart-main">
+        <div class="cart-th">
+          <div class="cart-th1">全部</div>
+          <div class="cart-th2">商品</div>
+          <div class="cart-th3">单价（元）</div>
+          <div class="cart-th4">数量</div>
+          <div class="cart-th5">小计（元）</div>
+          <div class="cart-th6">操作</div>
         </div>
-        <div class="sumbtn">
-          <!-- <a class="sum-btn" href="###" target="_blank">结算</a> -->
-          <router-link  class="sum-btn" to="/trade">结算</router-link>
+        <div class="cart-body">
+          <ul class="cart-list" v-for="shopCart in shopCartList" :key="shopCart.id">
+            <li class="cart-list-con1">
+              <input type="checkbox" name="chk_list" :checked="shopCart.isChecked" @click="setCheckCart(shopCart)"/>
+            </li>
+            <li class="cart-list-con2">
+              <img :src="shopCart.imgUrl" />
+              <div class="item-msg">
+                {{shopCart.skuName}}
+              </div>
+            </li>
+            <li class="cart-list-con4">
+              <!-- 商品价格 -->
+              <span class="price">{{shopCart.skuPrice}}</span>
+            </li>
+            <li class="cart-list-con5">
+              <a href="javascript:void(0)" class="mins" @click="changeCartNum(shopCart,true,-1,$event,shopCart.skuNum)">-</a>
+              <input
+                autocomplete="off"
+                type="text" 
+                :value="shopCart.skuNum"
+                @change="changeCartNum(shopCart,false,$event.target.value*1,$event,shopCart.skuNum)"
+                minnum="1"
+                class="itxt"
+              />
+              <a href="javascript:void(0)" class="plus" @click="changeCartNum(shopCart,true,1,$event,shopCart.skuNum)">+</a>
+            </li>
+            <li class="cart-list-con6">
+              <!-- 小计 -->
+              <span class="sum">{{shopCart.cartPrice * shopCart.skuNum}}</span>
+            </li>
+            <li class="cart-list-con7">
+              <a href="javascript:;" class="sindelet" @click="deleteOne(shopCart.skuId)">删除</a>
+              <br />
+              <!-- <a href="#none">移到收藏</a> -->
+            </li>
+          </ul>
         </div>
       </div>
+      <div class="cart-tool">
+        <div class="select-all">
+          <input class="chooseAll" type="checkbox" v-model="isCheckedAll"/>
+          <span>全选</span>
+        </div>
+        <div class="option">
+          <a href="javascript:;" @click="deleteAll">删除选中的商品</a>
+          <a href="#none">移到我的关注</a>
+          <a href="#none">清除下柜商品</a>
+        </div>
+        <div class="money-box">
+          <div class="chosed">已选择 <span>{{totalAmount}}</span>件商品</div>
+          <div class="sumprice">
+            <em>总价（不含运费） ：</em>
+            <i class="summoney">{{totalAccount}}</i>
+          </div>
+          <div class="sumbtn">
+            <a class="sum-btn" @click="toTrade">结算</a>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </template>
+  <!-- 购物车为空的时候显示 -->
+  <template v-else>
+    <div class="empty-cart">
+      <!-- 图片区域 -->
+      <div class="img">
+        <img src="./images/emptyCart.png" alt="空购物车">
+      </div>
+      <div class="info">
+        <div class="title">购物车空空的,再忙,也要记得买点什么犒劳自己~</div>
+        <router-link to="/" class="toshop">点我去购物</router-link>
+      </div>
+    </div>
+  </template>
+</div>
 </template>
 
 <script>
@@ -83,6 +99,18 @@ export default {
     this.getShopCartList();
   },
   methods:{
+    //用户单击去结算界面
+    toTrade(){
+        //1.判断是否登录
+        if(this.$store.state.user.token){
+           //2.登录了直接跳转
+          this.$router.push("/trade");
+        }else{
+            this.$message.warning("亲亲,请先登录后再下单哦~");
+           //3.没有登录就跳转到登录页面并传递参数
+           this.$router.push({path:"/login",query:{redirect:"/shopcart"}})
+        }
+    },
     // 删除所有选中购物车
     async deleteAll(){
       try {
@@ -90,7 +118,6 @@ export default {
         this.getShopCartList();
       } catch (error) {
         this.$message.error(error.message);
-        //  alert("删除失败",error.message);
       }
     },
     // 删除单个购物车
@@ -101,8 +128,8 @@ export default {
         //重新获取数据
         this.getShopCartList();
       } catch (error) {
-        this.$message.error("删除失败"+error.message);
-        // alert("删除失败",error.message);
+        this.$message.error("删除失败");
+        console.log(error.message);
       }
     },
     // 切换购物车选中状态
@@ -116,33 +143,41 @@ export default {
         //重新获取数据
         this.getShopCartList();
       } catch (error) {
-        this.$message.error("修改状态发生错误!"+error.message)
-        // alert("修改状态发生错误!",error.message);
+        this.$message.error("修改状态发生错误!");
+        console.log(error.message);
       }
       
     },
     //对购物车商品数量更改 shopCart修改的商品属性,flag:为真为+,-操作,为假为用户输入操作,endNumber为最终的值
-    async changeCartNum(shopCart,flag,endNumber){
-        // 变化量
-        let changeNumber;
+    async changeCartNum(shopCart,flag,endNumber,event,originNumber=0){
+        let changeNumber;//定义变化量
         if(!flag){
+          //用户输入了一个非法的值
+          if(!parseInt(endNumber)){
+            event.target.value = originNumber;
+            return;
+          }
           // 为用户输入
           if(endNumber <= 0){
              // 变化量设置为原来数值小1的数,并且是负数,比如10,那么这里的变化量将为-9
             changeNumber = 1 - shopCart.skuNum;
           }else{
+            //否者的话就是增加了,原来是10 现在是19,那么变化量就是9
             changeNumber = endNumber - shopCart.skuNum;
           }
         }else{
           //判断是否小于0
           if(endNumber<=0){
+            //商品数量只有一个的时候,不改变
+            if(originNumber===1){
+              return;
+            }
             // 变化量设置为原来数值小1的数,并且是负数,比如10,那么这里的变化量将为-9
             changeNumber = 1 - shopCart.skuNum;
           }else{
             changeNumber = endNumber;
           }
         }
-        console.log(changeNumber);
       //向服务器发送修改购物车数据
       try {
         await this.$store.dispatch("getAddOrUpdateCart",{skuId:shopCart.skuId,skuNum:changeNumber});
@@ -217,6 +252,29 @@ export default {
 </script>
 
 <style lang="less" scoped>
+//空购物车
+.empty-cart{
+    width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    height: 250px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 0 50px 5px rgba(0,0,0,0.2);
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    .info{
+      .title{
+        font-size: 16px;
+      }
+      .toshop{
+        font-size: 20px;
+        color: rgb(141, 141, 218)
+      }
+    }
+}
 .cart {
   width: 1200px;
   margin: 0 auto;
@@ -297,14 +355,6 @@ export default {
           }
         }
 
-        // .cart-list-con3 {
-        //   width: 20.8333%;
-
-        //   .item-txt {
-        //     text-align: center;
-        //   }
-        // }
-
         .cart-list-con4 {
           // width: 12.5%;
           width: 10%;
@@ -327,7 +377,7 @@ export default {
           input {
             border: 1px solid #ddd;
             width: 40px;
-            height: 33px;
+            height: 31px;
             float: left;
             text-align: center;
             font-size: 14px;

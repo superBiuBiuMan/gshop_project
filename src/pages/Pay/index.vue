@@ -11,20 +11,6 @@
           <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥{{orderInfo.totalFee}}</em></span>
         </div>
       </div>
-      <div class="checkout-info">
-        <h4>重要说明：</h4>
-        <ol>
-          <li>尚品汇商城支付平台目前支持<span class="zfb">支付宝</span>支付方式。</li>
-          <li>其它支付渠道正在调试中，敬请期待。</li>
-          <li>为了保证您的购物支付流程顺利完成，请保存以下支付宝信息。</li>
-        </ol>
-        <h4>支付宝账户信息：（很重要，<span class="save">请保存！！！</span>）</h4>
-        <ul>
-          <li>支付帐号：11111111</li>
-          <li>密码：111111</li>
-          <li>支付密码：111111</li>
-        </ul>
-      </div>
       <div class="checkout-steps">
         <div class="step-tit">
           <h5>支付平台</h5>
@@ -32,7 +18,7 @@
         <div class="step-cont">
           <ul class="payType">
             <li><img src="./images/pay2.jpg"></li>
-            <li><img src="./images/pay3.jpg"></li>
+            <li style="position:relative;" class="check"><img src="./images/pay3.jpg" ></li>
           </ul>
 
         </div>
@@ -129,27 +115,14 @@
               //action 的值为'confirm', 'cancel'或'close'；
               //done 用于关闭 MessageBox 实例
               if(action == 'confirm'){
+                // 用户单击确认键
                  clearInterval(this.timer);
                  this.timer = null;
                  this.$router.push("/paysuccess");
                  done();
-                // if(this.payStatu != 0){
-                //   clearInterval(this.timer);
-						    //   this.timer = null;
-                //   //支付成功!
-                //    this.$message({
-                //     message:"支付成功!",
-                //     type:"success"
-                //   });
-                //   done();
-                // }else{
-                //   this.$message({
-                //     message:"请确保支付成功",
-                //   });
-                // }
               }else if (action == 'cancel'){
                 this.$message({
-                  message:"请联系尚硅谷小姐姐解决~",
+                  message:"请联系客服小姐姐解决~",
                   type:"warning"
                 });
               }
@@ -194,7 +167,18 @@
 <style lang="less" scoped>
   .pay-main {
     margin-bottom: 20px;
-
+    //选择的支付状态
+    .check::after{
+      // content:url("./images/check.png");
+      content: "";
+      background-image: url("./images/check.png");
+      background-size: 48px 48px;
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      width: 48px;
+      height: 48px;
+    } 
     .pay-container {
       margin: 0 auto;
       width: 1200px;

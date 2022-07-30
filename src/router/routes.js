@@ -17,27 +17,10 @@ const Pay = () => import("@/pages/Pay")
 const PaySuccess = () => import("@/pages/PaySuccess")
 const MyOrder = () => import("@/pages/Center/MyOrder")
 const OrderGroup = () => import("@/pages/Center/OrderGroup")
-const AddressModel = () => import("@/components/AddressModel")
+const NotFound = () => import("@/pages/404");//404页面
 import {Message} from "element-ui"
-// import Login from "@/pages/Login"
-// import Register from "@/pages/Register"
-// import Search from "@/pages/Search"
-// import Detail from "@/pages/Detail"
-// import AddCarSuccess from "@/pages/AddCartSuccess"
-// import ShopCart from "@/pages/ShopCart"
-// import Trade from "@/pages/Trade"
-// import Center from "@/pages/Center"
-// import Pay from "@/pages/Pay"
-// import PaySuccess from "@/pages/PaySuccess"
-// import MyOrder from "@/pages/Center/MyOrder"
-// import OrderGroup from "@/pages/Center/OrderGroup"
 import store from "@/store/index.js"
 export default [
-    {
-        //测试使用
-        path:"/addressmodel",
-        component:AddressModel
-    },
     {
         
         //我的订单/个人中心
@@ -54,7 +37,7 @@ export default [
                 name:"ordergroup",
                 component:OrderGroup
             },
-            //重定向
+            //二级路由重定向
             {
                 path:"",
                 redirect:"myorder"
@@ -72,7 +55,6 @@ export default [
                 next();
             }else{
                 Message.error("只有从交易页面(创建订单)页面才能跳转到支付页面");
-                // alert("只有从交易页面(创建订单)页面才能跳转到支付页面");
                 next("/");
             }
         }
@@ -88,7 +70,6 @@ export default [
                 next();
             }else{
                 Message.error("只有从支付页面才能跳转到支付成功页面")
-                // alert("只有从支付页面才能跳转到支付成功页面");
                 next("/");
             }
         }
@@ -99,12 +80,11 @@ export default [
         name:"trade",
         component:Trade,
         // 只有从购物车界面才能跳转到交易页面(创建订单)
-         beforeEnter:(to,from,next) => {
+        beforeEnter:(to,from,next) => {
             if(from.path === '/shopcart'){
                 next();
             }else{
                 Message.error("只有从购物车界面才能跳转到交易页面")
-                // alert("只有从购物车界面才能跳转到交易页面")
                 next("/");
             }
         }
@@ -130,7 +110,6 @@ export default [
                 next();//放行
             }else{
                 Message.error("只有携带了skuNum和sessionStorage内部有skulnfo数据才能看到添加购物车成功的界面")
-                // alert("只有携带了skuNum和sessionStorage内部有skulnfo数据才能看到添加购物车成功的界面");
                 next("/");
             }
         }
@@ -181,5 +160,15 @@ export default [
         path:'/search/:keyword?',
         name:"search",
         component:Search,
+    },
+    {
+        //404页面
+        path:"*",
+        name:"nofound",
+        component:NotFound,
+        meta:{
+            isHidenHeader:true,
+            isHidenFooter:true,
+        }
     }
 ]

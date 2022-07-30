@@ -6,7 +6,7 @@ import store from "@/store"
 import {Message} from "element-ui";
 Vue.use(VueRouter);
 
-const originalPush = VueRouter.prototype.push
+const originalPush = VueRouter.prototype.push;
 //解决重复提交相同链接报错
 VueRouter.prototype.push = function push(location, onResolve, onReject) {
     if (onResolve || onReject)
@@ -20,7 +20,7 @@ VueRouter.prototype.push = function push(location, onResolve, onReject) {
         return Promise.reject(err)
     })
 }
-const originalReplace = VueRouter.prototype.replace
+const originalReplace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function replace(location, onResolve, onReject) {
     if (onResolve || onReject){
         //回调函数里面会用到this的指向,所以就要使用call
@@ -78,6 +78,12 @@ router.beforeEach(async (to,from,next) => {
             }
         }
     }else{
+        //没有登录就跳转到我的订单页面了
+        if(to.name === "myorder"){
+            Message.warning("还没有登录,请先登录!");
+            // 跳转到登录页面,并记录当前路径
+            next("/login?redirect="+to.path);
+        }
         next();
         //先关闭
         // if(to.path.indexOf("/trade") ==0 || to.path.startsWith("/pay") || to.path.startsWith("/center")){

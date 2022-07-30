@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var a = 895;
+        console.log(seperator(a));
+        function seperator(num){
+            //记录下是正数还是负数
+            let flag = num > 0 ? true : false;
+            //取绝对值并转化为字符串
+            num = Math.abs(num)+"";
+            //获取整数部分和小数部分
+            let [numberLeft,numberRight] = num.split(".");
+            //没有小数位就用空字符串填充下
+            numberRight = numberRight ? "."+numberRight : "";
+            //暂存数字
+            let temp = "";
+            while(numberLeft.length > 3){
+                //每次截取整数部分后3个字符串
+                temp =  "," + numberLeft.slice(-3) + temp;
+                //将整数部分除去最后三个字符串
+                numberLeft = numberLeft.slice(0,numberLeft.length - 3);
+            }
+            //循环结束,最后长度小于3,就将剩余的连接上
+            return flag ? numberLeft+temp+numberRight : "-"+numberLeft+temp+numberRight;
+        }
+
+    </script>
+</body>
+</html>

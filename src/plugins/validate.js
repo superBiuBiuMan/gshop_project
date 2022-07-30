@@ -2,7 +2,10 @@ import VeeValidate from "vee-validate";
 import zh_CN from "vee-validate/dist/locale/zh_CN"
 import Vue from "vue"
 
-Vue.use(VeeValidate);
+// 解决validate和element-ui的冲突
+Vue.use(VeeValidate,{
+    fieldsBagName:'fieldBags',
+});
 
 VeeValidate.Validator.localize("zh_CN", {
     messages: {

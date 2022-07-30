@@ -80,7 +80,8 @@
             <div class="cartWrap">
               <div class="controls">
                 <!-- 注意change和blur的区别 -->
-                <input autocomplete="off" class="itxt" v-model="skuNum" @change="skuNum=skuNum>=1?parseInt(skuNum):1">
+                <!-- <input autocomplete="off" class="itxt" v-model="skuNum" @change="skuNum=skuNum>=1?parseInt(skuNum):1"> -->
+                <input autocomplete="off" class="itxt" :value="skuNum" @change="userInputShopCount($event)">
                 <a href="javascript:" class="plus" @click="skuNum++">+</a>
                 <a href="javascript:" class="mins" @click="skuNum=(--skuNum)>=1?skuNum:1">-</a>
               </div>
@@ -337,10 +338,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-  import ImageList from './ImageList/ImageList'
-  import Zoom from './Zoom/Zoom'
-
-  export default {
+import ImageList from './ImageList/ImageList'
+import Zoom from './Zoom/Zoom'
+export default {
     name: 'Detail',
     components: {
       ImageList,
@@ -370,18 +370,28 @@ import { mapGetters } from 'vuex'
       this.getSkuDetailInfo();//为了可以服用
     },
     methods:{
+      //用户输入购物车商品数量
+      userInputShopCount(event){
+        let value = event.target.value;//获取用户输入的值
+        let parseValue = parseInt(value);//解析值
+        if(parseValue && parseValue>0){
+          //为一个合法的值
+          this.skuNum = parseValue;
+        }else{
+          //为不合法值
+          event.target.value = this.skuNum;
+        }
+      },
       //添加到购物车
       async addCart(){
         //由于是async所以返回的是promise
         try{
           let result = await this.$store.dispatch("getAddOrUpdateCart",{skuId:this.skuId,skuNum:this.skuNum});
           if(result=="OK"){
-            // this.$message.success("添加购物车成功,开始跳转...");
             this.$message.success({
               message:"添加购物车成功",
               duration:1000
             })
-            // alert("添加购物车成功,开始跳转...");
             //跳转
             this.$router.push({
               name:"addcartsuccess",
@@ -389,12 +399,11 @@ import { mapGetters } from 'vuex'
                 skuNum:this.skuNum
               }
             });
-            //复杂数据(商品信息)存入sessionStorage
+            //复杂数据(商品信息)存入sessionStorage  - - 便于添加购物车成功页面读取
             sessionStorage.setItem("SKUINFO_KEY",JSON.stringify(this.skuInfo));
           }
         }catch(error){
           this.$message.error("添加购物车失败"+error.message);
-          // alert("添加购物车失败",error.message);
         }
       },
       //使用排他思想
@@ -410,7 +419,7 @@ import { mapGetters } from 'vuex'
         this.$store.dispatch("getDetailInfo",this.skuId);
       },
     }
-  }
+}
 </script>
 
 <style lang="less" scoped>

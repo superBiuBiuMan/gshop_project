@@ -36,7 +36,7 @@
       margin: 0 auto;
 
       h3 {
-        margin: 20px 0;
+        margin: 20px 63px;
         font-weight: 700;
         font-size: 20px;
         line-height: 30px;

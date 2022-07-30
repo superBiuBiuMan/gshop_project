@@ -3,7 +3,8 @@ import App from './App.vue';
 //vuex
 import store from "@/store";
 import router from "@/router";
-
+//element-ui 
+import "@/plugins/elementui.js";
 //全局组件-导航栏
 import Nav from "@/components/Nav";
 //全局组件-自定义分页器
@@ -16,8 +17,7 @@ import * as API from "@/api";
 import "@/plugins/swiper.js";
 //引入假数据
 import "@/mock/mockServe.js";
-//element-ui 
-import "@/plugins/elementui.js";
+
 //图片懒加载
 import VueLazyload from "vue-lazyload";
 //表单验证

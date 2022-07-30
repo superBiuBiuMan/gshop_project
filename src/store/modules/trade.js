@@ -5,6 +5,7 @@ import {
 import {Message} from "element-ui"
 const state = {
     tradeInfo:{},
+    // 暂存修改地址时候的信息
     changAddress:{}
 }
 const mutations = {

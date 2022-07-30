@@ -63,12 +63,18 @@ const actions = {
     async login({commit},info){
         let {phone,password,isKeepSecret} = info;
         let result = await reqLogin({phone,password});
+        // 判断返回的数据当中的状态码,而不是响应的状态码
         if(result.code == 200){
-            commit("SETTOKEN_USER",result.data.token);
-            //暂存到localStorage
-            // if(isKeepSecret){
-            //     //用户勾选了存储信息
-            // }
+            //账号通过验证
+            commit("SETTOKEN_USER",result.data.token);//存储token
+            if(isKeepSecret){
+                //用户勾选了保存登录,那么就将账号密码保存到localStorage中
+                sessionStorage.setItem("AUTOLOGIN",JSON.stringify({
+                    phone,
+                    password,
+                }))
+            }
+            //设置localStorage
             setItem(result.data.token);
             return "OK";
         }else{
@@ -86,7 +92,6 @@ const actions = {
             console.log("您的验证码是:"+result.data);
         }else{
             Message.error("获取验证码失败!");
-            // alert("获取验证码失败!");
         }
     },
     // 提交注册信息

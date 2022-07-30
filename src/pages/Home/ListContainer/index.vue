@@ -4,7 +4,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <swiper :options="swiperOptions">
+        <swiper :options="swiperOptions" ref="mySwiper">
           <swiper-slide v-for="(el) in bannerList" :key="el.id" >
             <img :src="el.imageUrl" />
           </swiper-slide>
@@ -12,7 +12,6 @@
           <div class="swiper-button-next swiper-button" slot="button-next"></div>
           <div class="swiper-button-prev swiper-button" slot="button-prev"></div>
         </swiper>
-
       </div>
       <div class="right">
         <div class="news">
@@ -125,7 +124,10 @@ export default {
 .list-container {
   width: 1200px;
   margin: 0 auto;
-
+  // 轮播图前进后退按钮隐藏和显示
+  .swiper-button-next{display:none;}
+  .swiper-button-prev{display:none;}
+  .swiper-container:hover .swiper-button-next, .swiper-container:hover .swiper-button-prev{display: block; }
   .sortList {
     height: 464px;
     padding-left: 210px;

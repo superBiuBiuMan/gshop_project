@@ -26,8 +26,9 @@ export function reqBannerList() {
 // ƒ reqRecommend() {
 //     return (0,_mockAjax_js__WEBPACK_IMPORTED_MODULE_1__["default"])("/mock/todayRecommend");
 //   }
-export const reqRecommend = () => mockAjax("/todayRecommend"); //今日推荐
-export const reqFloor = () => mockAjax("/floor"); //二个floor
+export const reqRecommend = () => mockAjax("/todayRecommend"); //今日推荐(假数据版)
+
+export const reqFloor = () => mockAjax("/floor"); //二个floor(假数据版)
 
 /* 获取搜索结果 */
 export const reqSearch = (searParams) => axios.post("/list", searParams);
