@@ -8,7 +8,7 @@ import store from "@/store";
 import "nprogress/nprogress.css"
 //创建一个axios实例
 const service = axios.create({
-    baseURL:"/api",
+    baseURL:"/api/",
     timeout: 2000
 });
 // 设置拦截器
