@@ -75,11 +75,8 @@ https://gitee.com/superBiuBiu/gshop_project
 
 ## 尚品汇后台练习
 
-* 在线演示地址1(后台项目): http://82.156.205.62:9261
-  * 过期了
-
-* 在线演示地址2(后台项目): http://82.156.205.62:9260
-  * 过期了
+* 在线演示(后台项目): http://demo.gshopback.dreamlove.top
+  
 
 
 ### 首页登录
